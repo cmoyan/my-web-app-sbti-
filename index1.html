@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>你这人有点东西研究所</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#eef7ee,#f7fbf7);
+  color:#2d3a2d;
+  min-height:100vh;
+}
+
+html,body{
+  touch-action:manipulation;
+  -ms-touch-action:manipulation;
+}
+a,button,.card,.opt-btn{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+.author-link-wrap{
+  margin-top:18px;
+  text-align:center;
+}
+.author-link{
+  display:inline-block;
+  color:#1677ff;
+  font-size:16px;
+  font-weight:700;
+  text-decoration:none;
+}
+.author-link:active{
+  opacity:.75;
+}
+#home .card{
+  position:relative;
+  z-index:1;
+  pointer-events:auto;
+}
+.author-link-wrap{
+  position:relative;
+  z-index:1;
+  pointer-events:auto;
+}
+.small-muted{display:none !important;}
+
+.container{
+  padding:28px 20px 40px;
+  max-width:460px;
+  margin:auto;
+}
+h2{font-size:26px;margin-bottom:20px;}
+h3{margin-bottom:16px;font-size:20px;line-height:1.5;}
+.q-inline-aside{display:inline;font-size:1em;font-weight:700;line-height:1.5;color:inherit;margin-left:.2em;}
+.dim-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.dim-right .dim-strength-right{display:none;}
+.dim-bottom-right{display:flex;justify-content:flex-end;align-items:center;margin-top:10px;}.dim-bottom-right .dim-strength{font-size:13px;color:#899489;line-height:1.2;}
+
+p{line-height:1.7;}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:12px;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  cursor:pointer;
+  transition:.2s;
+  user-select:none;
+}
+.card:active{transform:scale(.97);}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(135deg,#5fa85f,#7bc67b);
+  color:#fff;
+  font-size:16px;
+  margin-top:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+button:active{transform:scale(.98);}
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none !important;
+}
+
+.btn-row{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+.btn-row button{flex:1;}
+.prev-btn{background:#99a899 !important;}
+
+.opt-btn{
+  background:#fff;
+  border:1px solid #ddd;
+  margin-bottom:10px;
+  border-radius:14px;
+  padding:14px;
+  text-align:left;
+  color:#000 !important;
+  margin-top:0;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.opt-btn.active{
+  background:#6fa86f;
+  color:#fff !important;
+  border-color:#6fa86f;
+}
+.opt-tag{
+  flex-shrink:0;
+  display:inline-block;
+  min-width:76px;
+  text-align:center;
+  padding:6px 8px;
+  border-radius:999px;
+  font-size:12px;
+  background:#f4f7f4;
+  color:#6a7d6a;
+  margin-top:2px;
+}
+.opt-btn.active .opt-tag{
+  background:rgba(255,255,255,.2);
+  color:#fff;
+}
+
+.progress{
+  height:6px;
+  background:#eee;
+  border-radius:10px;
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.bar{
+  height:100%;
+  background:linear-gradient(90deg,#5fa85f,#7bc67b);
+  width:0%;
+  transition:.3s;
+}
+
+.top-tip{
+  font-size:13px;
+  color:#6b776b;
+  margin-bottom:14px;
+}
+.status-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:13px;
+  color:#667466;
+}
+.status-badge{
+  background:#f2f7f2;
+  color:#4f7250;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+.result-card{
+  background:#fff;
+  padding:20px;
+  border-radius:24px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+  margin-bottom:16px;
+}
+.desc-long{
+  text-align:left;
+  font-size:14px;
+  line-height:1.9;
+  color:#444;
+  margin:12px 0;
+  padding:14px;
+  background:#f8fbf8;
+  border-radius:14px;
+}
+.result-img{
+  width:100%;
+  max-width:340px;
+  height:360px;
+  margin:4px auto 10px;
+  border-radius:22px;
+  background-size:contain;
+  background-position:center top;
+  background-repeat:no-repeat;
+  background-color:#f7faf7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#999;
+  font-size:14px;
+  overflow:hidden;
+}
+.share-btn{background:#ff7a00 !important;}
+
+.fold-card{
+  background:#fff;
+  border-radius:18px;
+  padding:0;
+  margin:16px 0;
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+.fold-card summary{
+  list-style:none;
+  cursor:pointer;
+  padding:18px;
+  font-weight:700;
+  color:#2d3a2d;
+  position:relative;
+}
+.fold-card summary::-webkit-details-marker{display:none;}
+.fold-card summary::after{
+  content:"展开";
+  position:absolute;
+  right:18px;
+  top:18px;
+  color:#7a8a7a;
+  font-size:13px;
+  font-weight:500;
+}
+.fold-card[open] summary::after{
+  content:"收起";
+}
+.fold-content{
+  padding:0 16px 16px;
+}
+
+.dim-item{
+  padding:10px 0;
+  border-bottom:1px solid #f0f0f0;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:#333;
+  font-weight:600;
+}
+.dim-item:last-of-type{border:none;}
+.dim-desc{
+  font-size:13px;
+  color:#666;
+  margin:4px 0 10px;
+}
+
+.hidden{display:none !important;}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:28px;
+  transform:translateX(-50%);
+  background:rgba(34,34,34,.92);
+  color:#fff;
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.5;
+  max-width:86vw;
+  text-align:center;
+  z-index:9999;
+  box-shadow:0 6px 20px rgba(0,0,0,.18);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+.toast.show{
+  opacity:1;
+  pointer-events:auto;
+}
+.small-muted{
+  font-size:12px;
+  color:#7a877a;
+  margin-top:8px;
+}
+.result-tag{
+  display:inline-block;
+  margin-top:8px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:#f2f7f2;
+  color:#5a785a;
+  font-size:12px;
+}
+.q-vibe{
+  display:inline-block;
+  margin-bottom:10px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#f2f7f2;
+  color:#5b735b;
+  font-size:12px;
+}
+.report-title{
+  font-weight:700;
+  color:#2f472f;
+  margin:10px 0 6px;
+}
+.author-word{
+  font-size:14px;
+  line-height:1.9;
+  color:#4a574a;
+  background:#f8fbf8;
+  padding:14px;
+  border-radius:14px;
+}
+
+.result-main-title,.result-sub-title,.result-sub-desc{
+  display:none;
+}
+.result-quote{
+  margin:2px 0 10px;
+  color:#5c6b5d;
+  font-size:15px;
+  line-height:1.7;
+}
+.primary-type-card{
+  background:#fff;
+  border-radius:24px;
+  padding:22px 18px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  margin:16px 0;
+}
+.primary-label{
+  color:#7a877a;
+  font-size:14px;
+  margin-bottom:10px;
+}
+.primary-name{
+  font-size:28px;
+  font-weight:800;
+  color:#1f2d1f;
+  line-height:1.3;
+}
+.primary-badge{
+  display:inline-block;
+  margin:16px 0 14px;
+  padding:12px 18px;
+  border-radius:999px;
+  background:#edf5ed;
+  color:#557255;
+  font-size:14px;
+  font-weight:700;
+}
+ .primary-note{
+  color:#758275;
+  font-size:14px;
+  line-height:1.9;
+}
+.primary-type-card.inside{
+  box-shadow:none;
+  border:1.5px solid #e5efe5;
+  background:#fcfffc;
+  margin:14px 0 12px;
+  padding:18px 16px;
+}
+.dim-desc2{
+  margin-top:10px;
+  color:#647064;
+  font-size:14px;
+  line-height:1.9;
+}
+.dim-desc2 .dim-strength-inline{
+  color:#899489;
+  font-size:13px;
+  white-space:nowrap;
+}
+.result-summary-box{
+  text-align:left;
+  font-size:14px;
+  line-height:2;
+  color:#394739;
+  margin-top:8px;
+  padding:18px;
+  background:#f7faf7;
+  border-radius:18px;
+}
+
+.dim-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.dim-card{
+  background:#fff;
+  border:1.5px solid #dce8dc;
+  border-radius:22px;
+  padding:16px 16px 14px;
+}
+.dim-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+.dim-left{
+  font-weight:800;
+  color:#1f2d1f;
+  font-size:18px;
+  line-height:1.35;
+  flex:1 1 auto;
+}
+.dim-right{
+  flex:0 0 auto;
+  min-width:92px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  justify-content:flex-start;
+  gap:2px;
+  color:#5e7d5f;
+  font-weight:800;
+  font-size:16px;
+  line-height:1.15;
+  text-align:right;
+}
+.dim-right small{
+  font-size:14px;
+  line-height:1.15;
+}
+.dim-right .dim-strength-right{
+  display:none;
+}
+.dim-desc2{
+  margin-top:10px;
+  color:#647064;
+  font-size:14px;
+  line-height:1.85;
+}
+.dim-bottom-right{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-top:4px;
+}
+.dim-bottom-right .dim-strength{
+  font-size:13px;
+  line-height:1.2;
+  color:#899489;
+}
+.dim-meta-row{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-top:10px;
+}
+.dim-strength{
+  color:#899489;
+  font-size:13px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="home">
+    <h2>🫠 你这人有点东西研究所</h2>
+    <p style="font-size:14px;color:#6f7d6f;line-height:1.8;margin-bottom:16px;">
+      适合深夜手欠来测一下。<br>
+      测完很可能会出现：“啊？这都被它看出来了？”
+    </p>
+
+    <div class="card test-entry" id="card-love" data-type="love">
+      ❤️ 看看你最近谈爱，会不会把自己谈晕
+      <div style="font-size:12px;color:#7d8b7d;margin-top:6px;">嘴上清醒，心里开连续剧的人慎入</div>
+    </div>
+
+    <div class="card test-entry" id="card-dark" data-type="dark">
+      🖤 测测你适不适合当个坏人
+      <div style="font-size:12px;color:#7d8b7d;margin-top:6px;">表面温柔，内心全是弹幕的来</div>
+    </div>
+
+    <div class="card test-entry" id="card-rich" data-type="rich">
+      💰 你到底是搞钱圣体，还是钱包漏风体质
+      <div style="font-size:12px;color:#7d8b7d;margin-top:6px;">适合一边焦虑未来一边乱花钱的人</div>
+    </div>
+
+    <div class="card test-entry" id="card-social" data-type="social">
+      😶 你到底是 i 人、e 人，还是人群中的神秘变异体
+      <div style="font-size:12px;color:#7d8b7d;margin-top:6px;">线上话痨，线下静音的尤其该测</div>
+    </div>
+
+    <div class="author-link-wrap">
+      <a class="author-link" id="douyinLink" href="https://v.douyin.com/07Sr1jtok-w/" target="_blank" rel="noopener noreferrer">作者：抖音@我不叫陈默</a>
+    </div>
+  </div>
+
+  <div id="intro" class="hidden">
+    <h2 id="introTit"></h2>
+    <p>30题 · 手快的人1分钟测完 · 测完可能会出现“啊？它是不是偷看我了”</p>
+    <button onclick="startTest()">开始测试</button>
+  </div>
+
+  <div id="quiz" class="hidden">
+    <div class="status-row">
+      <span id="statusText">第 1 / 30 题</span>
+      <span class="status-badge" id="doneCount">已答 0 题</span>
+    </div>
+    <div class="progress"><div class="bar" id="proBar"></div></div>
+    <div class="top-tip" id="tipText">可直接点下一题，最后提交前补完即可</div>
+    <div class="q-vibe" id="qVibe">今日份灵魂对线</div>
+    <h3 id="qText"></h3>
+    <div id="optWrap"></div>
+    <div class="btn-row">
+      <button class="prev-btn" id="prevBtn" onclick="prevQ()">上一题</button>
+      <button id="nextBtn" onclick="checkAndGo()">下一题</button>
+    </div>
+    
+  </div>
+
+  <div id="resPage" class="hidden">
+    <h2>🎯 你的测试结果</h2>
+    <div class="result-card">
+      <div class="result-img" id="personImg">人格图</div>
+      <h3 id="personName" class="result-main-title"></h3>
+      <p id="personEn" class="result-sub-title" style="color:#6fa86f;margin:6px 0;"></p>
+      <p id="personDesc" class="result-sub-desc"></p>
+      <p class="result-quote" id="resultQuote"></p>
+      <div class="result-tag" id="resultTag">结果编号</div>
+
+      <div class="primary-type-card inside" id="primaryTypeCard">
+        <div class="primary-label">你的主类型</div>
+        <div class="primary-name" id="primaryTypeName">LOVE-NPC（恋爱NPC）</div>
+        <div class="primary-badge" id="primaryTypeBadge">匹配度 83% · 精准命中 10/15 维</div>
+        <div class="primary-note" id="primaryTypeNote">维度命中度较高，当前结果可视为你这次测试下的主人格画像。</div>
+      </div>
+
+      <div class="desc-long" id="longDetail"></div>
+    </div>
+
+    <details class="fold-card">
+      <summary>十五维度评分详情</summary>
+      <div class="fold-content">
+        <div id="dimHtml"></div>
+      </div>
+    </details>
+
+    <details class="fold-card">
+      <summary>作者想说的话</summary>
+      <div class="fold-content">
+        <div class="author-word" id="authorWord"></div>
+      </div>
+    </details>
+
+    <button class="share-btn" onclick="shareResult()">🔥 分享到朋友圈</button>
+    <button onclick="resetToHome()">再测一次</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const home = document.getElementById("home");
+const intro = document.getElementById("intro");
+const introTit = document.getElementById("introTit");
+const quiz = document.getElementById("quiz");
+const qText = document.getElementById("qText");
+const optWrap = document.getElementById("optWrap");
+const proBar = document.getElementById("proBar");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+const resPage = document.getElementById("resPage");
+const personImg = document.getElementById("personImg");
+const personName = document.getElementById("personName");
+const personEn = document.getElementById("personEn");
+const personDesc = document.getElementById("personDesc");
+const dimHtml = document.getElementById("dimHtml");
+const longDetail = document.getElementById("longDetail");
+const statusText = document.getElementById("statusText");
+const doneCount = document.getElementById("doneCount");
+const toast = document.getElementById("toast");
+const resultTag = document.getElementById("resultTag");
+const qVibe = document.getElementById("qVibe");
+const authorWord = document.getElementById("authorWord");
+const resultQuote = document.getElementById("resultQuote");
+const primaryTypeName = document.getElementById("primaryTypeName");
+const primaryTypeBadge = document.getElementById("primaryTypeBadge");
+const primaryTypeNote = document.getElementById("primaryTypeNote");
+const douyinLinkEl = document.getElementById("douyinLink");
+
+let currType = "";
+let idx = 0;
+let ansRec = {};
+let qBank = [];
+let autoJumpTimer = null;
+let prevEggShownCount = 0;
+let reviewMode = false;
+
+const AUTHOR_PROFILE = {
+  name: "作者：抖音@我不叫陈默",
+  url: "https://v.douyin.com/07Sr1jtok-w/"
+};
+
+if(douyinLinkEl){
+  douyinLinkEl.href = AUTHOR_PROFILE.url;
+  douyinLinkEl.textContent = AUTHOR_PROFILE.name;
+}
+
+const typeTitleMap = {
+  love: "看看你最近谈爱，会不会把自己谈晕",
+  dark: "测测你适不适合当个坏人",
+  rich: "你到底是搞钱圣体，还是钱包漏风体质",
+  social: "你到底是 i 人、e 人，还是人群中的神秘变异体"
+};
+
+const dimLabels = {
+  love: [
+    "依恋焦虑度","情感投入度","边界模糊度","情绪波动度","讨好迁就度",
+    "猜心敏感度","吃醋占有度","失控上头度","自我保留度","失恋恢复度",
+    "表达主动度","安全感依赖度","底线动摇度","浪漫需求度","关系内耗度"
+  ],
+  dark: [
+    "防备怀疑度","记仇滞留度","情绪伪装度","利己优先度","城府隐藏度",
+    "报复反击度","人性洞察度","冷漠抽离度","伪善演绎度","价值筛选度",
+    "底线报复度","关系算计度","翻脸决绝度","规则利用度","共情稀缺度"
+  ],
+  rich: [
+    "长期主义","延迟满足","消费克制","副业开放度","试错意愿度",
+    "抗风险能力","现金流意识","资源整合力","学习投资欲","趋势判断力",
+    "执行稳定度","复利理解度","抗诱惑能力","目标进取度","财富自信度"
+  ],
+  social: [
+    "社交紧张度","陌生拘谨度","线下回避度","目光压力度","表达卡顿度",
+    "熟人反差度","电话焦虑度","群聊潜水度","客套疲惫度","独处回血度",
+    "社交慢热度","怕麻烦程度","尴尬敏感度","主动破冰度","现场控场度"
+  ]
+};
+
+const optionScoreMap = [100, 72, 38, 8];
+
+const imageMap = {
+  love: [
+    "img/love_01.png","img/love_02.png","img/love_03.png","img/love_04.png","img/love_05.png",
+    "img/love_06.png","img/love_07.png","img/love_08.png","img/love_09.png","img/love_10.png",
+    "img/love_11.png","img/love_12.png","img/love_13.png","img/love_14.png","img/love_15.png",
+    "img/love_16.png","img/love_17.png","img/love_18.png","img/love_19.png","img/love_20.png"
+  ],
+  dark: [
+    "img/dark_01.png","img/dark_02.png","img/dark_03.png","img/dark_04.png","img/dark_05.png",
+    "img/dark_06.png","img/dark_07.png","img/dark_08.png","img/dark_09.png","img/dark_10.png",
+    "img/dark_11.png","img/dark_12.png","img/dark_13.png","img/dark_14.png","img/dark_15.png",
+    "img/dark_16.png","img/dark_17.png","img/dark_18.png","img/dark_19.png","img/dark_20.png"
+  ],
+  rich: [
+    "img/rich_01.png","img/rich_02.png","img/rich_03.png","img/rich_04.png","img/rich_05.png",
+    "img/rich_06.png","img/rich_07.png","img/rich_08.png","img/rich_09.png","img/rich_10.png",
+    "img/rich_11.png","img/rich_12.png","img/rich_13.png","img/rich_14.png","img/rich_15.png",
+    "img/rich_16.png","img/rich_17.png","img/rich_18.png","img/rich_19.png","img/rich_20.png"
+  ],
+  social: [
+    "img/social_01.png","img/social_02.png","img/social_03.png","img/social_04.png","img/social_05.png",
+    "img/social_06.png","img/social_07.png","img/social_08.png","img/social_09.png","img/social_10.png",
+    "img/social_11.png","img/social_12.png","img/social_13.png","img/social_14.png","img/social_15.png",
+    "img/social_16.png","img/social_17.png","img/social_18.png","img/social_19.png","img/social_20.png"
+  ]
+};
+
+const polarityMap = {
+  love:  [0,1,0,0,0,0,0,0,1,1,1,0,0,1,0],
+  dark:  [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
+  rich:  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  social:[0,0,0,0,0,1,0,0,0,1,0,0,0,1,1]
+};
+
+function cloneDeep(obj){
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQuestionBank(){
+  return {
+    love: [
+      {dim:0,q:"吵架后你爱憋着冷战不说话？",opt:["完全是我本人，每次都冷战","偶尔会这样，看吵架严重程度","基本不会，吵完就沟通","从来没有，有矛盾当场解决"]},
+      {dim:1,q:"喜欢一个人就疯狂脑补患得患失？",opt:["天天脑补大戏，连结局都想好了","闲下来就想，总怕对方不喜欢我","偶尔走神想一下，很快就忘","完全不猜心思，顺其自然"]},
+      {dim:2,q:"恋爱里总委屈自己迁就对方？",opt:["次次都让步，怕对方不开心","多半会迁就，怕吵架伤感情","看心情平衡，谁有理听谁的","绝不委屈自己，底线很明确"]},
+      {dim:3,q:"对方冷淡一点你情绪直接崩？",opt:["瞬间焦虑内耗，开始胡思乱想","心里堵得慌，会主动找对方","稍微在意一下，但很快就好","毫无波澜，我也会冷回去"]},
+      {dim:5,q:"会偷偷翻对方的社交动态？",opt:["每条都翻遍，连点赞都不放过","偶尔会看，看对方发了什么","随缘刷到就看，不会特意找","完全不看，给足对方空间"]},
+      {dim:10,q:"表白前反复纠结不敢开口？",opt:["怂到不敢说，怕被拒绝","犹豫很久，需要鼓起勇气","鼓起勇气就冲，不想拖","直球不纠结，喜欢就说"]},
+      {dim:13,q:"甜言蜜语三两句就被打动上头？",opt:["秒沦陷心动，吃这套","很容易被哄好，心软","保持冷静听着，不会上头","免疫甜话，知道是客套"]},
+      {dim:9,q:"失恋好久走不出来阴影？",opt:["半年都缓不过，天天难过","难过一两个月，慢慢走出来","几周就释怀，能正常生活","转头就翻篇，很快就忘"]},
+      {dim:4,q:"恋爱里习惯委屈自己成全对方？",opt:["次次都委屈自己，怕对方不开心","多半会迁就，怕吵架伤感情","看心情平衡，谁有理听谁的","绝不委屈自己，底线很明确"]},
+      {dim:9,q:"会偷偷翻前任的主页视奸？",opt:["隔三差五就看，放不下","偶尔会看，看对方过得好不好","随缘刷到就看，不会特意找","完全不看，已经放下了"]},
+      {dim:11,q:"小事就怀疑对方不爱自己？",opt:["一点小事就脑补不爱了","会有点在意，但很快就好","偶尔会想，但很快就忘","完全不怀疑，很有安全感"]},
+      {dim:6,q:"超黏人，疯狂要对方的安全感？",opt:["24小时都要报备，黏人到窒息","经常找对方，想时刻知道动态","偶尔会黏人，看心情","完全不黏人，给足对方空间"]},
+      {dim:3,q:"吵架时会说狠话，事后又后悔？",opt:["每次吵架都放狠话，事后又道歉","偶尔会说狠话，气头上控制不住","很少说狠话，会冷静沟通","从不放狠话，知道伤人"]},
+      {dim:2,q:"会为爱打乱自己的节奏和计划？",opt:["完全打乱，围着对方转","多半会迁就对方的时间","偶尔会调整，看情况","绝不打乱，保持自己的节奏"]},
+      {dim:5,q:"暧昧期会胡思乱想，焦虑爆炸？",opt:["天天脑补，怕对方不喜欢自己","会有点焦虑，但很快就好","偶尔会想，但很快就忘","完全不焦虑，顺其自然"]},
+      {dim:11,q:"对方不回消息，直接焦虑坐不住？",opt:["坐立不安，一直等回复","会有点在意，但很快就好","偶尔会想，但很快就忘","完全不在意，自己玩自己的"]},
+      {dim:13,q:"偏爱轰轰烈烈的恋爱，不爱平淡？",opt:["喜欢轰轰烈烈，要浪漫和仪式感","偏爱热烈，但也接受平淡","都可以，看对方是什么样的","更喜欢平淡，细水长流"]},
+      {dim:7,q:"容易恋爱脑，把感情放在第一位？",opt:["完全恋爱脑，围着对方转","很容易上头，会把感情看得很重","偶尔会，但很快就清醒","完全不恋爱脑，自己最重要"]},
+      {dim:6,q:"吃醋藏不住，全写在脸上？",opt:["藏不住，直接表现出来","会有点表现，但不会太明显","偶尔会，但很快就藏起来","完全藏得住，表面波澜不惊"]},
+      {dim:12,q:"受伤了还心软，轻易原谅对方？",opt:["次次都原谅，好了伤疤忘了疼","会原谅，但会有隔阂","偶尔会，但看情况","绝不原谅，底线很明确"]},
+      {dim:10,q:"总等对方猜自己的心思，不说出来？",opt:["从来不说，就等对方猜","偶尔会说，但希望对方懂","会说清楚，不猜来猜去","直接说，不玩猜谜游戏"]},
+      {dim:14,q:"吵架后半夜偷偷难过内耗？",opt:["每次都哭，内耗很久","会难过，但很快就好","偶尔会，但很快就忘","完全不内耗，吵完就翻篇"]},
+      {dim:12,q:"会为爱改底线，讨好另一半？",opt:["次次都改，怕对方不开心","多半会迁就，怕对方离开","偶尔会，但看情况","绝不改底线，原则问题不让步"]},
+      {dim:0,q:"极度缺爱，害怕被抛弃？",opt:["很缺爱，总怕对方离开","会有点怕，但很快就好","偶尔会，但很快就忘","完全不缺爱，很有安全感"]},
+      {dim:3,q:"恋爱会影响生活和工作全局？",opt:["完全影响，什么都做不好","会有点影响，但能平衡","偶尔会，但很快就调整好","完全不影响，能分得很开"]},
+      {dim:14,q:"会因为对方的一句话，情绪波动一整天？",opt:["完全会，被对方影响情绪","会有点，但很快就好","偶尔会，但很快就忘","完全不会，情绪很稳定"]},
+      {dim:8,q:"喜欢一个人，就会失去自我？",opt:["完全失去自我，围着对方转","会有点迷失，但很快就找回自己","偶尔会，但很快就清醒","完全不会，保持自我"]},
+      {dim:8,q:"会主动为对方改变自己的习惯？",opt:["完全改变，变成对方喜欢的样子","会改变一些，但保持自己的底线","偶尔会，但看情况","绝不改变，做自己"]},
+      {dim:9,q:"分手了会一直怀念对方，走不出来？",opt:["一直怀念，很久都走不出来","会怀念，但慢慢就放下了","偶尔会想起，但很快就忘","完全不怀念，很快就翻篇"]},
+      {dim:1,q:"恋爱里，你是主动的一方还是被动的一方？",opt:["主动方，会主动找对方、主动推进关系","偏主动，会主动但也需要对方回应","偏被动，等对方主动","被动方，从不主动，等对方来"]}
+    ],
+    dark: [
+      {dim:2,q:"不爽还假装和气不当面翻脸？",opt:["演技满分，谁都看不出我不爽","表面客气，心里默默记仇","偶尔会表露一点情绪，藏不住","不爽直接怼，谁的面子都不给"]},
+      {dim:1,q:"被得罪默默记心里等机会？",opt:["记账超认真，下次一定还回去","暗自不爽一阵子，慢慢就忘","当场就翻篇，不往心里去","转头就忘事，根本不记仇"]},
+      {dim:6,q:"擅长抓别人弱点拿捏分寸？",opt:["一眼看穿，会利用对方的弱点","能发现，但不会用来伤害别人","偶尔会，但看情况","完全不会，只看表面"]},
+      {dim:11,q:"嘴上大度心里算计利弊？",opt:["嘴上说着没事，心里算得门清","表面客气，心里会权衡利弊","偶尔会，但看情况","完全不会，直来直去"]},
+      {dim:3,q:"利益面前优先自保不顾人情？",opt:["利益优先，其他都靠边","会优先自己，但也顾及人情","偶尔会，但看情况","重人情，利益往后放"]},
+      {dim:13,q:"看透虚伪从不戳穿不点破？",opt:["看破不说破，给对方留面子","会点破，但会委婉地说","偶尔会直接说，看情况","当场戳穿，不留情面"]},
+      {dim:9,q:"嫉妒优秀偶尔盼对方翻车？",opt:["会嫉妒，偶尔盼对方出点事","会有点羡慕，但不会盼对方不好","偶尔会，但很快就调整好","完全不嫉妒，真心为对方开心"]},
+      {dim:7,q:"低落时会冒出极端黑暗想法？",opt:["经常会，控制不住地想负面的","偶尔会，但很快就压下去","很少会，心态比较阳光","完全不会，很乐观"]},
+      {dim:8,q:"会装好人藏真实阴暗面？",opt:["演技很好，没人知道我阴暗","会隐藏，但偶尔会暴露","偶尔会，但看情况","从不伪装，表里如一"]},
+      {dim:5,q:"被伤害默默等机会报复？",opt:["会记仇，找机会报复回去","会不爽，但不会报复","偶尔会，但看情况","从不报复，直接远离"]},
+      {dim:0,q:"不信善意总怀疑别人有目的？",opt:["谁都不信，总觉得别人有目的","会怀疑，但很快就打消顾虑","偶尔会，但看情况","相信善意，不设防"]},
+      {dim:7,q:"独处时负面想法远比表面多？",opt:["独处时满脑子都是负面的","会想，但很快就调整好","偶尔会，但很快就忘","独处时也很阳光，不会想负面的"]},
+      {dim:13,q:"会用人情规则铺路谋好处？",opt:["会利用人情关系为自己铺路","偶尔会，但看情况","很少会，靠自己","完全不会，不屑于这么做"]},
+      {dim:2,q:"讨厌谁表面依旧客气维系？",opt:["表面和气，心里很讨厌对方","会维持表面，但态度会冷淡","偶尔会，但看情况","直接表现出讨厌，不伪装"]},
+      {dim:6,q:"看透不说透冷眼旁观众生？",opt:["看破不说破，看别人演戏","会点破，但很委婉","偶尔会直接说，看情况","当场戳穿，不留情面"]},
+      {dim:7,q:"压力大时内心冷漠直线飙升？",opt:["压力越大，越冷漠无情","会有点，但很快就调整好","偶尔会，但很快就忘","压力大也会保持温柔"]},
+      {dim:2,q:"完美伪装情绪不让人看穿？",opt:["情绪控制大师，谁都看不出","会伪装，但偶尔会暴露","偶尔会，但看情况","情绪藏不住，都写在脸上"]},
+      {dim:3,q:"利益优先亲情友情往后排？",opt:["利益优先，其他都靠边","会优先自己，但也顾及亲情友情","偶尔会，但看情况","亲情友情最重要，利益往后放"]},
+      {dim:4,q:"内心高傲瞧不上多数人认知？",opt:["内心很傲，觉得多数人都很蠢","会有点，但不会表现出来","偶尔会，但看情况","很谦虚，觉得别人都有优点"]},
+      {dim:0,q:"被辜负很难再真心信人？",opt:["被辜负一次，就再也不信人了","会防备，但还是愿意相信","偶尔会，但看情况","被辜负也愿意相信人"]},
+      {dim:8,q:"演戏共情到位实际毫无波澜？",opt:["演技很好，共情都是演的","会演，但心里也会有感觉","偶尔会，但看情况","从不演戏，共情都是真心的"]},
+      {dim:11,q:"沉默时满脑子算计规划？",opt:["沉默时一直在算计下一步","会想，但很快就调整好","偶尔会，但很快就忘","沉默时放空，什么都不想"]},
+      {dim:9,q:"看人只看价值无用社交不维护？",opt:["看人先看价值，没用的不维护","会维护，但也看对方价值","偶尔会，但看情况","交朋友不看价值，看感觉"]},
+      {dim:9,q:"盼讨厌的人偶尔碰壁不顺？",opt:["会盼对方倒霉，解气","会有点爽，但不会主动盼","偶尔会，但很快就打消念头","真心希望对方过得好"]},
+      {dim:0,q:"温柔外壳下防备心拉满？",opt:["表面温柔，心里防备心很重","会温柔，但也会防备别人","偶尔会，但看情况","对人很真诚，没防备心"]},
+      {dim:5,q:"被人得罪，会选择当场反击还是秋后算账？",opt:["秋后算账，慢慢记仇，找机会还回去","当场怼回去，不憋着","当场表现出不爽，但不会记仇","当场翻篇，不往心里去"]},
+      {dim:13,q:"面对虚伪的人，你会怎么做？",opt:["看破不说破，陪对方演戏","委婉点破，给对方留面子","直接戳穿，不留情面","远离对方，不打交道"]},
+      {dim:12,q:"你更倾向于用什么方式解决冲突？",opt:["冷战，表面和气，心里记仇","冷暴力，不沟通","当场吵完翻篇，不记仇","冷静沟通，解决问题"]},
+      {dim:9,q:"看到别人过得比你好，你会怎么想？",opt:["嫉妒，盼对方翻车","羡慕，但也为对方开心","无感，和我没关系","真心祝福，希望对方更好"]},
+      {dim:4,q:"你觉得自己是个有城府的人吗？",opt:["很有城府，很会伪装","有点城府，但也有真心","偶尔会伪装，大部分时候很直","完全没城府，表里如一"]}
+    ],
+    rich: [
+      {dim:0,q:"愿意长期深耕不急快钱？",opt:["极致耐心沉淀，愿意熬3-5年","能熬一段时间，看收益情况","更倾向短平快，不想耗太久","只想立刻变现，不想等"]},
+      {dim:1,q:"消费优先资产增值不图享乐？",opt:["只花在能增值的地方，不瞎花","会优先资产增值，但也会享受","偶尔会乱花，看心情","优先享受，钱花在当下"]},
+      {dim:3,q:"敢搞副业不靠死工资活命？",opt:["副业刚需，不想只靠死工资","会尝试副业，但怕风险","偶尔会想，但没行动","只想安稳上班，不想搞副业"]},
+      {dim:2,q:"克制欲望不跟风超前消费？",opt:["从不超前消费，理性克制","偶尔会，但很快就还清","经常超前消费，控制不住","月光族，不克制消费"]},
+      {dim:4,q:"遇赚钱机会愿意花时间研究？",opt:["会花很多时间研究清楚再做","会了解一下，看值不值得花时间","偶尔会，但很快就放弃","看到机会就冲，不研究"]},
+      {dim:8,q:"分得清资产负债不被营销洗脑？",opt:["很清楚，不会被营销套路","大概清楚，偶尔会被种草","分不清，容易被营销忽悠","完全不懂，跟风买"]},
+      {dim:6,q:"习惯记账规划现金流清清楚楚？",opt:["每天记账，清楚每一分钱去向","会记账，但偶尔会忘","偶尔会记，大部分时候不记","从不记账，不知道钱花哪了"]},
+      {dim:1,q:"懂延迟满足不沉迷即时快乐？",opt:["能延迟满足，愿意为长期目标克制","会克制，但偶尔会放纵","经常沉迷即时快乐，克制不住","完全不克制，活在当下"]},
+      {dim:8,q:"舍得为认知付费投资自己？",opt:["很舍得，愿意为学习花钱","会投资，但看值不值得","偶尔会，但舍不得花大钱","从不投资自己，觉得浪费钱"]},
+      {dim:5,q:"扛亏损不焦虑稳住长期布局？",opt:["能扛住波动，心态很稳","会焦虑，但很快就调整好","扛不住，一亏就慌","一亏就放弃，不扛着"]},
+      {dim:13,q:"不躺平主动琢磨搞钱逻辑？",opt:["主动研究搞钱方法，不躺平","会想，但没行动","偶尔会想，但很快就放弃","躺平摆烂，不想搞钱"]},
+      {dim:9,q:"看趋势不被眼前表象迷惑？",opt:["能看长远趋势，不被短期波动影响","会看，但偶尔会被影响","看不透，容易被短期表象迷惑","只看眼前，不考虑长远"]},
+      {dim:2,q:"该省省该花花花钱有分寸？",opt:["钱花在刀刃上，该省省该花花","大部分时候理性，偶尔会乱花","经常乱花，控制不住","月光族，没分寸"]},
+      {dim:10,q:"吃苦打磨技能攒竞争力？",opt:["愿意吃苦，打磨自己的核心技能","会努力，但怕吃苦","偶尔会，但很快就放弃","不想吃苦，躺平摆烂"]},
+      {dim:7,q:"断无效社交留时间搞钱成长？",opt:["减少无效社交，专注搞钱和成长","会减少，但也会维护关系","偶尔会，但大部分时候都在社交","社交很重要，不想减少"]},
+      {dim:5,q:"行情波动冷静不追涨杀跌？",opt:["冷静分析，不跟风操作","会有点慌，但很快就冷静","容易被影响，跟风追涨杀跌","一波动就慌，盲目操作"]},
+      {dim:7,q:"会整合资源借力做事不靠蛮干？",opt:["会整合资源，借力做事","会尝试，但效果一般","偶尔会，但靠自己蛮干","只会自己蛮干，不懂借力"]},
+      {dim:11,q:"从小积累不幻想一夜暴富？",opt:["脚踏实地积累，不幻想暴富","会想暴富，但也会努力","经常幻想暴富，不想努力","只幻想暴富，不行动"]},
+      {dim:11,q:"信复利懂慢就是快逻辑？",opt:["懂复利，知道慢就是快","大概了解，但没耐心等","听过，但不信","完全不懂，只看短期"]},
+      {dim:4,q:"小额试错验证赚钱模式？",opt:["会小额试错，验证模式","会尝试，但怕亏","偶尔会，但很快就放弃","不敢试错，怕亏"]},
+      {dim:12,q:"不攀比专注自己财富节奏？",opt:["不攀比，专注自己的节奏","偶尔会羡慕别人，但很快就调整好","容易被别人影响，盲目跟风","总跟别人比，很焦虑"]},
+      {dim:12,q:"沉得住气低调不炫财？",opt:["很低调，从不炫富","偶尔会晒一下自己的成绩","经常炫富，很在意别人的看法","恨不得全世界都知道自己有钱"]},
+      {dim:9,q:"拆解富人思维学底层逻辑？",opt:["会主动研究，学习富人思维","会看，但没行动","偶尔会看，但很快就忘","从不看，觉得没用"]},
+      {dim:14,q:"危机里能看见机会不是只看难？",opt:["能看到机会，迎难而上","会有点慌，但很快就找到机会","只看到困难，看不到机会","直接放弃，不敢面对"]},
+      {dim:10,q:"自律不偷懒耽误搞钱规划？",opt:["很自律，按计划推进","大部分时候自律，偶尔会偷懒","经常偷懒，计划都泡汤","完全不自律，摆烂"]},
+      {dim:3,q:"你更倾向于用什么方式增加收入？",opt:["主业+副业，多渠道赚钱","专注主业，提升自己涨工资","投资理财，钱生钱","不想折腾，安稳上班"]},
+      {dim:6,q:"你对钱的态度是怎样的？",opt:["钱是工具，用来实现目标","钱很重要，要努力赚钱","够用就行，不想太累","钱不重要，开心最重要"]},
+      {dim:0,q:"你会为了赚钱放弃自己的休息时间？",opt:["会，为了赚钱可以牺牲休息","偶尔会，但不会长期这样","很少会，休息更重要","绝不，休息时间绝不占用"]},
+      {dim:14,q:"你觉得自己能成为有钱人吗？",opt:["相信自己能，愿意为之努力","有可能，但需要机会","不确定，看运气","不相信，觉得自己没那个命"]},
+      {dim:13,q:"你更看重赚钱的过程还是结果？",opt:["结果，只要能赚到钱就行","过程，享受搞钱的乐趣","都看重，过程和结果都要有","都不看重，钱够花就行"]}
+    ],
+    social: [
+      {dim:0,q:"人多场合浑身紧张不自在？",opt:["手脚都僵硬，不敢说话","全程放不开，只想快点走","慢慢适应，能正常交流","社牛完全不怕，主动带动气氛"]},
+      {dim:1,q:"陌生人搭话瞬间慌不会接梗？",opt:["瞬间慌，不知道说什么","会有点紧张，但很快就调整好","偶尔会，但很快就找到话题","完全不慌，很会接话"]},
+      {dim:2,q:"能打字绝不语音能线上绝不线下？",opt:["线上聊可以，线下打死不去","能打字绝不语音，语音也勉强接受","偶尔会线下，但需要鼓起勇气","更喜欢线下交流，不喜欢打字"]},
+      {dim:3,q:"聚会沉默怕成焦点社恐隐身？",opt:["全程隐身，躲在角落不说话","偶尔会说几句，但大部分时候沉默","能正常交流，但不想成为焦点","主动成为焦点，带动气氛"]},
+      {dim:12,q:"电梯遇熟人独处尴尬抠脚？",opt:["尴尬到抠脚，只想快点到楼层","会打招呼，但不想多聊","偶尔会聊几句，不会尴尬","主动搭话，聊到出电梯"]},
+      {dim:4,q:"当众发言直接大脑空白死机？",opt:["大脑一片空白，说不出话","会紧张，但能勉强说下去","偶尔会紧张，但很快就调整好","完全不慌，侃侃而谈"]},
+      {dim:2,q:"遇熟人绕道走假装没看见？",opt:["直接绕道走，假装没看见","会打招呼，但不想多聊","偶尔会，但很快就走开","主动打招呼，聊几句再走"]},
+      {dim:7,q:"微信不爱闲聊回复终结话题？",opt:["只回嗯啊哦，终结话题","会回复，但不想多聊","偶尔会主动找话题","很会聊天，能一直聊下去"]},
+      {dim:8,q:"烦无效客套觉得纯消耗精力？",opt:["讨厌无效客套，觉得很消耗","能应付，但觉得很累","偶尔会，但很快就结束","不觉得消耗，很喜欢和人打交道"]},
+      {dim:3,q:"聚餐必抢角落躲避目光注视？",opt:["必抢角落，不想被注意","会选靠后的位置，但不是角落","随便坐，不特意选位置","主动坐C位，不怕被注视"]},
+      {dim:5,q:"线上社牛线下见面拘谨自闭？",opt:["线上很会聊，线下见面就哑巴","会拘谨，但很快就放开","偶尔会，但看情况","线上线下一样，都很社牛"]},
+      {dim:3,q:"不敢对视眼神本能躲闪回避？",opt:["不敢对视，看一眼就躲开","会对视，但很快就移开目光","偶尔会，但看情况","很喜欢对视，眼神交流"]},
+      {dim:11,q:"不爱麻烦人也怕被人麻烦？",opt:["从不麻烦别人，也怕被人麻烦","能自己解决的绝不麻烦别人","偶尔会麻烦别人，也不介意被麻烦","经常麻烦别人，也不介意被人"]},
+      {dim:8,q:"集体活动能推就推绝不凑热闹？",opt:["能推就推，绝不参加","会参加，但很勉强","偶尔会参加，看心情","很喜欢参加集体活动，爱凑热闹"]},
+      {dim:1,q:"融不进陌生圈子全程透明人？",opt:["全程透明，没人注意到我","能勉强融入，但很不自在","偶尔会，但很快就找到话题","主动融入，和大家打成一片"]},
+      {dim:6,q:"接打电话前紧张半天做心理建设？",opt:["接电话前要准备很久","会紧张，但很快就调整好","偶尔会，但看情况","接电话很自然，完全不紧张"]},
+      {dim:10,q:"慢热很难快速和陌生人交心？",opt:["很慢热，需要很久才敢交心","会慢热，但能慢慢敞开心扉","偶尔会，但很快就熟了","自来熟，和谁都能聊得来"]},
+      {dim:9,q:"热闹待久耗电急需独处回血？",opt:["待一会就累，需要独处回血","会累，但很快就恢复","偶尔会，但很快就适应","越热闹越嗨，不需要独处"]},
+      {dim:4,q:"不会接梗怕冷场尴尬自己扛？",opt:["不会接梗，怕冷场尴尬","会有点慌，但很快就找到话题","偶尔会，但看情况","很会接梗，不怕冷场"]},
+      {dim:8,q:"厌烦人情往来送礼应酬场面？",opt:["讨厌应酬，能推就推","能应付，但觉得很累","偶尔会，但很快就结束","不觉得厌烦，很喜欢这种场面"]},
+      {dim:4,q:"自我介绍是内心煎熬天花板？",opt:["很煎熬，说不出话","会紧张，但能勉强说下去","偶尔会紧张，但很快就调整好","完全不慌，侃侃而谈"]},
+      {dim:12,q:"怕说错话小心翼翼察言观色？",opt:["说话前要想很久，怕说错","会注意，但不会太刻意","偶尔会，但看情况","说话很直接，不察言观色"]},
+      {dim:7,q:"群聊潜水万年不冒泡发言？",opt:["全程潜水，从不发言","偶尔会冒泡，但不说话","会回复，但很少主动发言","很活跃，经常在群里说话"]},
+      {dim:2,q:"办事能自助绝不找人工沟通？",opt:["能自助绝不找人工，怕沟通","会找人工，但很紧张","偶尔会，但看情况","很喜欢和人沟通，不喜欢自助"]},
+      {dim:10,q:"内心戏爆棚表面安静不露情绪？",opt:["内心戏很多，表面安静","会有点表现，但大部分时候藏起来","偶尔会表现出来，但很快就收住","情绪都写在脸上，藏不住"]},
+      {dim:5,q:"和朋友相处，你更倾向于？",opt:["少数几个深交，不喜欢泛交","有几个要好的朋友，也能应付一般社交","朋友很多，但大部分都是点头之交","自来熟，和谁都能聊得来"]},
+      {dim:13,q:"面对别人的热情，你会怎么回应？",opt:["受宠若惊，不知道怎么回应","会有点不自在，但很快就接受","能自然回应，和对方互动","比对方更热情，带动气氛"]},
+      {dim:10,q:"你觉得自己是内向还是外向的人？",opt:["很内向，喜欢独处","偏内向，和熟人能聊得开","偏外向，和大部分人都能聊得来","很外向，喜欢热闹"]},
+      {dim:14,q:"和别人吵架，你会怎么做？",opt:["冷战，不说话，自己躲起来","会吵，但吵完就翻篇","会冷静沟通，解决问题","直接走掉，不吵了"]},
+      {dim:0,q:"如果必须参加一个大型社交活动，你会？",opt:["提前焦虑很久，找借口不去","勉强参加，躲在角落不说话","能参加，但需要时间适应","很期待，主动参加"]}
+    ]
+  };
+}
+
+function buildShuffledTest(type){
+  const base = cloneDeep(buildQuestionBank()[type]);
+  const shuffledQuestions = shuffleArray(base).map((qObj, qIndex) => {
+    const optObjects = qObj.opt.map((text, originalOptionIndex) => ({
+      text,
+      value: originalOptionIndex
+    }));
+    qObj.optShuffled = shuffleArray(optObjects);
+    qObj.uid = `${type}_${Date.now()}_${qIndex}_${Math.random().toString(36).slice(2,8)}`;
+    return qObj;
+  });
+  return shuffledQuestions;
+}
+
+function lerp(a, b, t){ return a + (b - a) * t; }
+
+function buildVector(start, end, steps = 20){
+  const list = [];
+  for(let i = 0; i < steps; i++){
+    const t = steps === 1 ? 0 : i / (steps - 1);
+    list.push(start.map((v, idx) => Math.round(lerp(v, end[idx], t))));
+  }
+  return list;
+}
+
+const resultMeta = {
+  love: [
+    ["纯情舔狗","ADD-DOG","舔狗舔狗，舔到最后一无所有。","你现在这个恋爱状态吧，很像别人回你一句“哈哈”，你能脑补出一整段未来。你不是没尊严，你只是太会给喜欢加戏、给对方加滤镜、给自己加委屈。爱一来你就想冲，结果经常先把自己交出去。"],
+    ["深情冤种","LOVE-SAD","嘴上说没事，心里已经碎成二维码。","你属于那种很容易认真、也很容易在认真之后自己消化所有情绪的人。别人一热一冷，你表面还能稳住，晚上却已经开始想：是不是我哪里又不对劲。"],
+    ["恋爱脑本脑","LOVE-BRAIN","脑子可以没有，爱必须上头。","你一旦动心，理智就会自动下线。别人在恋爱，你在写连续剧；别人看聊天记录，你在看命运安排。你不是故意上头，你是情绪一来就很难只停在表面。"],
+    ["卑微补位王","SPARE-DOG","主打一个：你有空了想起我也行。","你在关系里特别容易退一步、再退一步，退到最后都快退出画面了。很多时候不是你不想要体面，是你怕自己一硬气，关系就直接没了。"],
+    ["暧昧艺术家","FLIRT-ART","不一定谈，但一定会拉满氛围。","你很会享受心动前的那种拉扯感、氛围感和若即若离的刺激。你不一定想立刻确定关系，但你很懂怎么把暧昧感玩得很上头。"],
+    ["上头小狗","HEART-DOG","别人一勾手，你尾巴都要摇出残影。","你属于那种一旦感受到一点偏爱，整个人都会忍不住靠过去的人。不是你没见过世面，是你太吃“被认真对待”的感觉。"],
+    ["纯爱战神","PURE-LOVE","你谈的不是恋爱，是信仰。","你对感情的认真程度，已经不是一般人那种“喜欢一下看看”，而是会本能想把真心整个捧出去。你爱得很满，也因此特别容易受伤。"],
+    ["拉扯大师","PULL-ME","嘴上说随便，实际退一步又想追一步。","你心里是想靠近的，但又怕自己显得太主动、太认真、太好拿捏，于是就开始在热情和冷淡之间来回横跳。你自己有时候都被自己绕晕。"],
+    ["嘴硬钉子户","HARD-MOUTH","明明很在意，还要装出一副“哦随便”。","你很不喜欢把脆弱摆出来，所以常常一边在意得要死，一边装得像完全不care。别人以为你稳，其实你只是很会藏。"],
+    ["恋爱NPC","LOVE-NPC","看着平静，实际剧情都在心里推进。","你不会一下把自己全交出去，但你会默默观察、默默记住、默默上心。你不是没感觉，你只是习惯先把感觉放后台运行。"],
+    ["慢热收藏家","SLOW-BOX","不轻易动心，一动心就容易存档。","你不是那种谁来都能心动的人。你需要时间、需要安全、需要确定不是自己在自作多情。可一旦确认了，你会很认真。"],
+    ["清醒路人王","LOVE-404","会心动，但脑子还能联网。","你对喜欢这件事并不抗拒，但你也不会为了谁一下把自己丢没了。你能感受浪漫，也知道什么时候该踩刹车。"],
+    ["互选主义者","MATCH-ME","不追独角戏，只看双向奔赴。","你越来越清楚，真正值得的人，不会让你一直猜、一直追、一直自我怀疑。你要的是互相，不是单方面发疯。"],
+    ["边界感狠人","NO-LOSS","会爱，但不做慈善。","你不是不会付出，你只是不会为了关系一味牺牲自己。别人能不能进来，得先看值不值得。"],
+    ["爱情免疫体","LOVE-VAX","甜言蜜语打你身上，像打防弹玻璃。","你不是不懂心动，而是不太容易被表面热烈糊住眼睛。你更看重长期一致，不太吃一时上头。"],
+    ["独立天花板","SELF-MAX","会爱人，但更会把自己拎稳。","你已经很清楚恋爱是生活加分项，不是精神急救箱。你能认真，也能抽离，不会轻易被关系拖着跑。"],
+    ["松弛挂选手","EASY-LOVE","喜欢就相处，不行就散，不内耗。","你在感情里算比较舒服的那类人，不会给自己搞太多精神内耗。能聊、能爱、能收手，心态比很多人稳。"],
+    ["自洽型高配","SAFE-ME","安全感主要自产，不靠外部代工。","你不太需要通过别人来确认自己值不值得被爱。进入关系时你更平静，也更不容易被一点风吹草动带跑。"],
+    ["海后预备役","SEA-QUEEN","心里有爱，但船也不是只能停一艘。","你不一定真的很渣，但你对关系节奏和情绪张力的掌控感比较强。你知道怎么拿捏氛围，也知道怎么不让自己太快掉下去。"],
+    ["海王预备役","SEA-KING","不一定真坏，但确实会让人上头。","你在关系里比较懂场面、懂节奏、懂若即若离的魅力。你未必到处撒网，但你确实容易让别人觉得你有点危险又有点香。"]
+  ],
+  dark: [
+    ["白开水圣体","PURE-WATER","你坏不起来，顶多阴阳两句就心软。","你更多时候还是偏直给、偏善意、偏真实。哪怕看见点人性复杂，你第一反应也不是利用，而是先理解。"],
+    ["善良NPC","GOOD-NPC","主打一个心软，还总给别人找补。","你不是完全不懂人情世故，只是很多时候比起算计，你更容易先共情。"],
+    ["老实人plus","HONEST+","你这人要搞城府，系统可能都不支持。","你不太爱兜弯子，也不怎么会玩那种表面一套背后一套。适合当朋友，不适合当宫斗冠军。"],
+    ["透明人设","CLEAR-FACE","心里想啥，脸上基本都能播出来。","你藏不太住情绪，也不太爱伪装。真诚是优点，但偶尔也容易让自己吃点嘴太直的亏。"],
+    ["防人之心1.0","GUARD-01","开始防了，但还没防到位。","你已经知道不是谁都值得全信，但你的防备更多是留一手，不是彻底封心。"],
+    ["黑芝麻汤圆","SESAME","外面白白软软，里面开始有点东西。","你平时看着没什么攻击性，但内里其实已经慢慢长出了一点心眼和判断。"],
+    ["观察系忍者","WATCH-ME","不一定出手，但看得很细。","你对人和事的观察能力越来越强，很多话别人没明说，你心里其实已经差不多懂了。"],
+    ["边界警报器","ALARM-ME","平时温和，踩线就直接响。","你不是爱翻脸，是你现在越来越明白，有些边界一旦被碰，就没必要继续装大度。"],
+    ["灰度玩家","GREY-MODE","善良还在，清醒也长出来了。","你已经不再是那种别人说什么都全信的人，但你也没彻底黑化。属于灰度感很强的一类。"],
+    ["低配腹黑","DARK-LITE","会想一点，会藏一点，还不算满级。","你已经开始懂规则、懂立场、懂留余地了，只是还没进化到真正的高段位。"],
+    ["冷脸判官","JUDGE-FACE","表面没吭声，心里早就判完。","你很多时候不是没情绪，只是懒得当场表现。你心里有本账，而且记得很清。"],
+    ["防备锁死型","LOCK-HEART","礼貌有，交底没有。","你越来越不相信一时热情，也越来越不愿意把真实自己轻易往外递。"],
+    ["高冷算法人","COLD-CODE","对人不一定冷，但会先跑一遍利弊分析。","你已经学会在情绪之外加一层判断，所以很多事情你看起来会更稳，也更难被骗。"],
+    ["阴影躲猫猫","HIDE-BLADE","表面无害，实际锋芒都折起来放兜里。","你不爱高调展示自己那点清醒和狠劲，但不代表你没有。你只是知道什么时候该收着。"],
+    ["腹黑见习生","DARK-TRAINEE","开始会演了，也开始会算了。","你已经慢慢摆脱“老好人自动模式”，开始懂得如何保护自己、看场合切换状态。"],
+    ["不动声色型","CALM-KILL","表面云淡风轻，心里全有数。","你很多东西不说，不代表没看见；你很多时候不发作，不代表你会忘。"],
+    ["利己小天才","SELF-FIRST","不是无情，是先学会不把自己垫出去。","你开始越来越明白，人先保住自己，再谈别的，这不是坏，是长脑子。"],
+    ["伪装艺术家","MASK-PRO","会笑会演会装糊涂，但脑子可没停。","你已经很会处理场面了，什么时候该装无害，什么时候该留后手，你心里门清。"],
+    ["人性显微镜","MICRO-HUMAN","别人刚开场，你心里已经看完下半集。","你对人性的敏感度很高，所以很多关系里你比别人更容易提前看出走向。"],
+    ["高阶坏人候选","DARK-BOSS","你不一定真坏，但你绝对不是好糊弄的。","你已经具备了高段位的观察、控制、隐藏和自保能力。别人想拿捏你，难度挺大。"]
+  ],
+  rich: [
+    ["月光战神","MOON-SPEND","工资一到账，钱包就开始自由落体。","你不是故意穷，你只是对当下快乐的响应速度，明显快过对未来焦虑的执行速度。"],
+    ["快乐优先党","HAPPY-NOW","未来再说，今天先爽。","你对即时满足的感知特别强，所以很多时候不是不懂规划，是快乐来得太快。"],
+    ["电子散财童子","SPEND-BOY","钱从你这儿路过，都像来旅游的。","你花钱有种随缘又大方的气质，记账和控制更多像心情好时的副本。"],
+    ["想富怕亏型","RISK-BABY","想搞钱，但又怕被现实扇一巴掌。","你脑子里知道该往上走，但真到做决定那一刻，风险感会把你拽住。"],
+    ["脑内CEO","BRAIN-BOSS","想法很多，执行还在排队。","你其实不缺赚钱思路，缺的是把思路熬成结果的那股持续性。"],
+    ["半醒财迷","MONEY-HALF","时而清醒，时而放飞。","你已经有一点财商意识了，只是执行时经常输给冲动和情绪。"],
+    ["觉醒中选手","WAKE-UP","开始认真对待钱这件事了。","你不再只是单纯想省，而是开始意识到认知、技能、结构这些东西也很重要。"],
+    ["存钱松鼠","SAVE-SQUI","主打一个慢慢囤，但有点不敢冲。","你有积累意识，也会想稳着来，只是有时太稳也会错过一些小机会。"],
+    ["现实派升级人","REAL-UP","你开始从幻想暴富，切到现实推进。","你越来越知道赚钱不是梦一场，而是长期结构和个人能力一起撑起来的。"],
+    ["稳扎稳打怪","STEADY-UP","不一定最快，但很难突然垮。","你走的不是特别炸裂的路线，但你比较容易靠持续稳定慢慢拉开差距。"],
+    ["慢就是快信徒","SLOW-WIN","你开始吃得下长期主义这碗饭了。","你逐渐能接受很多事情不是立刻见效，而是先埋，再长，再爆。"],
+    ["务实搞钱脑","WORK-MIND","少空想，多落地。","你已经具备不错的现实推进能力，知道该研究什么，也知道该少沉迷什么。"],
+    ["执行力回暖型","DO-IT","不只是会想，已经开始会动了。","你跟过去那个只会脑内规划的自己比，已经进步不少，至少开始真的去干了。"],
+    ["长期布阵家","LONG-SET","会给未来提前埋点。","你知道很多真正有价值的东西都不是马上爽，而是越往后越有后劲。"],
+    ["资源借力怪","BORROW-PRO","开始懂得：靠自己可以，但借力更香。","你越来越理解合作、渠道、资源、效率这些东西的重要性。"],
+    ["理性增值怪","VALUE-UP","钱在你这儿，不只是花和存。","你开始把注意力放到“怎么让资源动起来、长起来”这件事上。"],
+    ["搞钱实干派","MONEY-DO","你不是嘴上想富，是身体也开始配合。","你对财富的理解已经不止停留在口号层面，而是开始一点点往结果上走。"],
+    ["复利体质","FUFU-LI","慢慢来，但真的会越来越值。","你很适合那种前期不一定最猛，但越往后越稳越强的路线。"],
+    ["财富潜力股","MONEY-SEED","现在还没满级，但底子已经很像样。","你具备长期变强的很多关键条件，只要不自己乱掉，后劲会比很多人猛。"],
+    ["搞钱圣体","RICH-GOD","别人靠运气，你更像能靠系统。","你已经不是随便玩玩那种状态了。你对钱、节奏、长期、选择都有比较成熟的感觉。"]
+  ],
+  social: [
+    ["I-树懒","I-SLOTH","能躺着绝不站着，能不社交绝不启动。","你不一定讨厌人，但你对很多社交场景的身体反应就是：累，想撤，想回窝。"],
+    ["I-自闭蘑菇","I-MUSH","在人群里安静长在角落。","你更像低调生长型人格，不爱抢、不爱闹、不爱成为灯光打到的那一个。"],
+    ["I-空气模式","I-AIR","进场五分钟，自动把自己调成背景。","你不是不存在，你只是很擅长在陌生场子里把存在感调低。"],
+    ["I-紧张小猫","I-CAT","想说话，但一抬头就想跑。","很多场合不是你没内容，是你的社交系统一上线就先开始紧绷。"],
+    ["I-线上话痨","I-ONLINE","打字像机关枪，见面像哑巴。","你在低压环境里表达能力不错，但一到面对面，整个人就容易切静音模式。"],
+    ["I-慢热乌龟","I-TURTLE","不是高冷，是加载太慢。","你需要时间确认环境、确认人、确认安全感，熟了以后你其实没那么难接近。"],
+    ["I-省电模式","I-POWER","你的社交不是不会，是太费电。","尤其是那种无效寒暄、强行热闹、场面客套，会让你快速掉电。"],
+    ["I-熟人疯批","I-DOUBLE","陌生人面前稳如老狗，熟人面前直接疯。","你的反差感非常强，不熟的时候像静音雕像，熟了以后像突然开了外放。"],
+    ["I-选择性营业","I-PICK","不是谁都配拿到你的社交能量。","你越来越会筛选关系，不想把精力花在不值得的人和局上。"],
+    ["I-边界结界","I-WALL","不是冷淡，是靠太近我就想后退。","你对距离和舒服度很敏感，所以很多时候比起热闹，你更想保住自己的空间。"],
+    ["I/E-摇摆人","IE-SWING","看场合、看人、看当天电量。","你不是纯种I，也不是纯种E，你更像一种很看状态的混合型生物。"],
+    ["I/E-缓冲加载","IE-LOAD","刚开始安静，后面慢慢开机。","你需要一点启动时间，但只要场子不太窒息，你通常都能渐渐进入状态。"],
+    ["E-lite","E-LITE","不算社牛，但正常交流问题不大。","你已经具备一定松弛感了，不会一进场就慌，也不需要过度自我盯防。"],
+    ["E-温和营业","E-GENTLE","会来事，但不爱抢戏。","你待人接物比较自然，有互动感，也有分寸感，不会让人觉得太压迫。"],
+    ["E-稳定输出","E-STABLE","不怯场，不尬住，也不硬演。","你在多数社交场景里都能正常输出，属于很稳定、很省心的那种人。"],
+    ["E-松弛选手","E-RELAX","社交对你来说基本就是个日常动作。","你面对人和场子都比较放松，不太容易被目光、评价和冷场拿捏。"],
+    ["E-气氛组","E-VIBE","人一多你反而开始来感觉。","你对现场互动的接受度比较高，也很容易在氛围里慢慢打开自己。"],
+    ["E-人群发动机","E-ENGINE","哪里冷场，你就想上去踩一脚油门。","你已经不只是会聊天了，而是开始能主动带动关系和氛围。"],
+    ["E-控场王","E-STAGE","破冰、接话、圆场，你都有点会。","你对社交场子的掌控感比较强，很多人卡壳的时候，你能自然接住。"],
+    ["E-社交永动机","E-MAX","独处不慌，合群更强，主打一个全场通电。","你在社交这件事上确实很有天赋，不靠讨好也不靠硬撑，靠的是自然和松弛。"]
+  ]
+};
+
+const archetypeVectors = {
+  love: buildVector(
+    [98,96,94,95,92,95,88,97,12,8,20,96,94,90,98],
+    [8,18,15,12,10,18,12,10,94,95,88,12,8,38,10]
+  ),
+  dark: buildVector(
+    [8,10,10,8,10,8,18,8,10,12,8,10,8,10,12],
+    [94,92,95,95,96,92,94,90,95,94,96,95,94,95,90]
+  ),
+  rich: buildVector(
+    [8,10,12,10,10,10,8,8,10,10,12,8,10,12,10],
+    [96,95,94,92,93,92,95,90,94,95,96,95,94,96,95]
+  ),
+  social: buildVector(
+    [98,96,96,94,95,90,95,94,92,96,95,92,96,8,8],
+    [10,12,10,12,14,22,12,10,18,18,15,20,14,94,96]
+  )
+};
+
+
+
+
+function getQuestionInlineAside(type, item, qIndex){
+  const key = item && item.q ? item.q : "";
+  const asideMap = {
+    love: {
+      "喜欢一个人就疯狂脑补患得患失？":"嘴上说顺其自然，实际已经把对方头像点开八遍了。",
+      "对方冷淡一点你情绪直接崩？":"回消息速度一慢，你脑内气氛已经自动转悬疑片了。",
+      "会偷偷翻对方的社交动态？":"嘴上说尊重空间，手却已经滑到对方三个月前的点赞记录。",
+      "甜言蜜语三两句就被打动上头？":"别人随口发糖，你这边差点直接把未来孩子名字想好了。",
+      "暧昧期会胡思乱想，焦虑爆炸？":"关系还没确定，你的情绪已经先进去打工了。",
+      "对方不回消息，直接焦虑坐不住？":"消息框一安静，你心里的警报器就先开始巡逻。",
+      "吃醋藏不住，全写在脸上？":"表面说没事，脸已经把“我有事”打在公屏上了。",
+      "吵架后半夜偷偷难过内耗？":"白天嘴硬得像没事，晚上情绪偷偷开深夜场。"
+    },
+    dark: {
+      "不爽还假装和气不当面翻脸？":"你不是没情绪，你只是先把刀收在袖子里。",
+      "被得罪默默记心里等机会？":"别人以为你翻篇了，你其实只是暂存到后台。",
+      "嘴上大度心里算计利弊？":"表面一句“没事”，心里已经在做利弊表了。",
+      "看透虚伪从不戳穿不点破？":"你不拆穿不代表没看见，更多是懒得陪人演第二场。",
+      "低落时会冒出极端黑暗想法？":"情绪低的时候，你脑内频道有时会切到比较阴的那档。",
+      "沉默时满脑子算计规划？":"别人沉默是在发呆，你沉默可能已经想完三步后手。"
+    },
+    rich: {
+      "愿意长期深耕不急快钱？":"这题很适合看你是想立刻爽，还是想后面真的起来。",
+      "消费优先资产增值不图享乐？":"别人先买快乐，你可能先看这钱以后能不能长回来。",
+      "习惯记账规划现金流清清楚楚？":"这题分高的人，花钱前脑子里通常会先过一遍账。",
+      "扛亏损不焦虑稳住长期布局？":"市场一晃，你是先慌还是先看逻辑，这题很直白。",
+      "不躺平主动琢磨搞钱逻辑？":"这题高的人，一般脑子里不止“想赚钱”，还会想怎么跑通。",
+      "自律不偷懒耽误搞钱规划？":"热血谁都会，能不能按计划干，主要看这题。"
+    },
+    social: {
+      "人多场合浑身紧张不自在？":"这题分高的话，你一进人群，身体通常比脑子先紧张。",
+      "陌生人搭话瞬间慌不会接梗？":"表面点头微笑，内心可能正在紧急搜索可回复话术。",
+      "微信不爱闲聊回复终结话题？":"不是冷淡，是你社交电量真的不支持展开第二页。",
+      "接打电话前紧张半天做心理建设？":"铃声一响，你脑子里的“我待会说啥”同步起飞。",
+      "慢热很难快速和陌生人交心？":"不是你高冷，是你心门开机速度确实比别人慢一点。",
+      "热闹待久耗电急需独处回血？":"这题分高的人，一般玩得再开心也得回去静音充会电。"
+    }
+  };
+  const byType = asideMap[type] || {};
+  return byType[key] || "";
+}
+
+
+
+function getQuestionVibe(type, qIndex){
+  const map = {
+    love:[
+      "恋爱脑浓度检测中",
+      "心动雷达正在乱响",
+      "爱情 CPU 占用中",
+      "你嘴硬系统已启动",
+      "深夜小剧场加载中",
+      "感情内耗扫描中"
+    ],
+    dark:[
+      "腹黑浓度检测中",
+      "人性显微镜已打开",
+      "表面温柔系统扫描",
+      "你那点城府别藏了",
+      "内心弹幕抓取中",
+      "坏人体验卡识别中"
+    ],
+    rich:[
+      "财富脑回路扫描中",
+      "搞钱雷达启动中",
+      "钱包情绪读取中",
+      "复利系统加载中",
+      "一夜暴富幻想抓取中",
+      "现实主义电量检测中"
+    ],
+    social:[
+      "社交电量检测中",
+      "i/e 波动监测中",
+      "人群生存模式扫描",
+      "尴尬雷达已启动",
+      "线上线下反差读取中",
+      "社交 buff 加载中"
+    ]
+  };
+  if(qIndex % 4 !== 1) return "";
+  return map[type][Math.floor(qIndex / 4) % map[type].length];
+}
+
+function decorateQuestion(type, raw, qIndex){
+  return raw;
+}
+
+function getOptionTag(realValue){
+  const tagPool = {
+    0:["像我本体","本人出演","被逮到了","这就是我"],
+    1:["有点像我","被戳中了","微妙地像","有被说中"],
+    2:["还行吧","一般般像","勉强沾点","偶尔会这样"],
+    3:["这波不沾","不是我哈","暂时没有","我先否认"]
+  };
+  const arr = tagPool[realValue];
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function maybeFunnyOptionText(realValue, text){
+  return text;
+}
+
+function scoreToLevel(score){
+  if(score < 15) return 1;
+  if(score < 30) return 2;
+  if(score < 45) return 3;
+  if(score < 60) return 4;
+  if(score < 75) return 5;
+  if(score < 90) return 6;
+  return 7;
+}
+
+function getLevelTag(score){
+  if(score < 15) return "极低";
+  if(score < 30) return "偏低";
+  if(score < 45) return "中等";
+  if(score < 60) return "中上";
+  if(score < 75) return "较高";
+  if(score < 90) return "很高";
+  return "极高";
+}
+
+const dimDescMap = {
+  love: [
+    {
+      low:"偏低，偶尔会冒头，但大多数时候你还能稳住自己，不容易因为一点动静就慌。",
+      mid:"中等，遇到在意的人会敏感，但还没有到完全失控的程度。",
+      high:"很高，感情里的警报器很灵，一点风吹草动都容易被你放大。"
+    },
+    {
+      low:"偏克制，心门不是没开，是开得比较慢，不会随便把自己全交出去。",
+      mid:"投入度看状态，遇到对的人会认真，但也会留一点回旋余地。",
+      high:"极高，一旦确认关系或动了心，你会比很多人更先认真、也更舍得给。"
+    },
+    {
+      low:"边界感相对清楚，不太会为了关系把自己的节奏全打乱。",
+      mid:"有时候会迁就、有时候能守住，更多取决于你当下有多上头。",
+      high:"较高，容易为关系调整自己，温度感很重要，也比较吃彼此黏连感。"
+    },
+    {
+      low:"情绪总体稳，不太容易被一句话或一个态度牵着跑。",
+      mid:"已经有点明显，遇到在意的人或敏感场景时反应会偏大。",
+      high:"极高，情绪起伏会明显受关系影响，爱的时候很容易整个人都被带动。"
+    },
+    {
+      low:"讨好迁就欲不强，你更容易先顾自己的感受和边界。",
+      mid:"中等，熟悉或在意的人面前会让步，但不至于次次退。",
+      high:"较高，关系一紧张就容易先软下来，很多时候会下意识成全对方。"
+    },
+    {
+      low:"不太爱猜，更多是看对方说了什么做了什么，不会一直脑补。",
+      mid:"会猜，会想，也会在意，只是还没有到全天候内心连续剧。",
+      high:"极高，已读不回、语气变化、细节落差都容易让你脑内自动续写剧情。"
+    },
+    {
+      low:"占有欲不算强，能给空间，也比较能克制自己的醋意。",
+      mid:"在意的时候会吃醋，但多数时候还能自己消化。",
+      high:"较高，喜欢的人一旦出现不确定感，你很容易先被醋意和不安推着走。"
+    },
+    {
+      low:"不太容易上头，理智和节奏感还在，不会一下全线失守。",
+      mid:"有时会突然冲一下，但冷静下来也能把自己拉回来。",
+      high:"极高，情绪一来就容易恋爱脑，心动不是一点点，是整个人直接栽进去。"
+    },
+    {
+      low:"自我保留度低，说明你其实挺容易敞开，会把真实想法和情绪露出来。",
+      mid:"一半想靠近、一半想藏着，属于会防一点但不算特别重。",
+      high:"很高，你很会藏，很多在意和脆弱都不会第一时间摆到台面上。"
+    },
+    {
+      low:"恢复速度快，情绪来得快去得也快，不太会长期挂在同一个人身上。",
+      mid:"恢复要看关系深浅，偶尔会卡一阵，但还能慢慢抽离。",
+      high:"极高，失恋或失去连接后会在心里停留很久，很难说翻篇就翻篇。"
+    },
+    {
+      low:"表达偏被动，很多时候更希望别人先靠近、先看懂你。",
+      mid:"中等，该主动时也会主动，但仍会有点拉扯和犹豫。",
+      high:"较高，想说会说，想靠近会靠近，不太喜欢一直猜来猜去。"
+    },
+    {
+      low:"安全感主要靠自己，不太需要别人持续证明你值得被爱。",
+      mid:"偶尔需要确认，关系不稳时会想多一点。",
+      high:"很高，你对回应和态度很敏感，安全感常常需要从关系里实时获取。"
+    },
+    {
+      low:"底线相对稳，不太容易为了喜欢一个人就不断后退。",
+      mid:"有些原则能守，有些场景会心软，要看你陷得多深。",
+      high:"较高，关系一旦重要起来，你确实比较容易改规则、改原则、改自己。"
+    },
+    {
+      low:"浪漫需求感偏低，更看重舒服和稳定，不靠仪式感充电。",
+      mid:"想要浪漫，但也能接受普通日常，不会强求一直热烈。",
+      high:"很高，你很吃氛围、仪式感和被认真准备过的感觉，太平会觉得没味道。"
+    },
+    {
+      low:"内耗不算重，很多事你想得开，也不太爱夜里一个人反复复盘。",
+      mid:"已经有点明显，遇到触发点会想很多，但还不至于长期困住自己。",
+      high:"极高，关系里的很多细节都会在你心里反复回放，容易自我消耗。"
+    }
+  ],
+  dark: [
+    {low:"你对人整体还算愿意信，防备心不会一上来就拉满。",mid:"会观察、会留心，但还没有到谁都先怀疑的程度。",high:"很高，表面能正常相处，心里会先过一遍“对方到底图什么”。"},
+    {low:"记仇阈值不高，多数时候气过也就翻篇。",mid:"有些事会记得，尤其是被冒犯时，但不至于一直挂着。",high:"很高，被得罪的细节你记得很牢，嘴上不说不代表心里没记账。"},
+    {low:"不太会藏情绪，喜不喜欢、爽不爽容易被人看出来。",mid:"偶尔能装一下平静，但状态不稳定。",high:"很高，你很会维持表面体面，情绪控制和伪装感都比较强。"},
+    {low:"很多时候还是会顾人情，不太会事事先算自己。",mid:"会平衡利己和人情，主要看对方值不值得。",high:"很高，关键时刻你会本能先护住自己，再考虑别人。"},
+    {low:"城府感不重，更多是直给路线。",mid:"已经会收一点、藏一点，但还不算太深。",high:"很高，很多真实判断你不会立刻说出来，而是先放在心里。"},
+    {low:"反击欲不强，被冒犯后更可能转身远离。",mid:"严重时会想回击，但不是时时都想算回来。",high:"较高，受伤后你不是完全算了，而是会本能想找回平衡。"},
+    {low:"看人不会想太深，更多凭直觉和表面互动判断。",mid:"有一定洞察，但未必每次都拿得准。",high:"很高，很多人还没说几句，你已经能看出动机和位置。"},
+    {low:"冷漠抽离度低，你对情绪和关系还有比较自然的温度。",mid:"看状态，累了会抽离，不累时还能投入。",high:"很高，压力一上来你会明显抽离，像把自己从情绪现场切出去。"},
+    {low:"伪善演绎欲不强，不太爱装。",mid:"必要时会装正常、装客气，但不常开这个模式。",high:"很高，你很会在需要的时候显得无害、体面、甚至很会共情。"},
+    {low:"交往时不太会先看价值，还是更吃感觉。",mid:"会慢慢考虑值不值得深交，但不是唯一标准。",high:"很高，很多关系你会先判断有没有维护价值。"},
+    {low:"底线被碰到时更多选择拉开距离，不一定要狠狠干回去。",mid:"轻的事算了，重的事还是会想处理一下。",high:"较高，一旦被踩得太狠，你是会动真格的。"},
+    {low:"算计欲不强，沉默时不一定在盘逻辑，可能只是懒得说。",mid:"会想局势、想利弊，但不是时时都在推演。",high:"很高，你表面安静的时候，脑子里常常没停过。"},
+    {low:"翻脸阈值高，很多时候还能再忍一下。",mid:"看场合，忍到点了也会变脸。",high:"较高，一旦决定抽离或翻脸，动作会比较干脆。"},
+    {low:"不太爱用规则、人情和场面做文章。",mid:"懂一点，也会用，但不是强项。",high:"很高，你越来越懂场面、懂规则，也懂借这些东西保护自己。"},
+    {low:"共情并不稀缺，你还是容易理解别人。",mid:"会共情，但也会给自己留后手。",high:"偏高，很多时候你不是没感觉，而是不会让感觉主导你。"}
+  ],
+  rich: [
+    {low:"长期主义偏弱，更容易先看眼前反馈。",mid:"知道要看长远，但执行时不一定每次都稳。",high:"很高，你愿意熬、愿意积累，不太迷恋一夜起飞。"},
+    {low:"延迟满足一般，容易先让当下开心。",mid:"能克制一阵，但状态不好时容易破功。",high:"很高，你更愿意把短期爽感让给长期结果。"},
+    {low:"消费克制偏弱，钱很容易花在即时感受上。",mid:"有规划，但偶尔还是会乱花。",high:"很高，你已经比较懂“该省省该花花”的分寸。"},
+    {low:"副业开放度低，更想走稳妥路线。",mid:"愿意想，也可能试，但行动未必稳定。",high:"很高，你对多渠道收入是打开的，不太想把命运只绑在一份工资上。"},
+    {low:"试错意愿不高，怕亏、怕麻烦、怕白折腾。",mid:"会试一点，但得给自己很强理由。",high:"很高，你愿意用小成本验证新路子，不会只停在想。"},
+    {low:"抗风险能力一般，一有波动就容易紧张。",mid:"小风险能扛，大波动会慌。",high:"很高，面对不确定时你更容易稳住，不会立刻乱动作。"},
+    {low:"现金流意识偏弱，钱去了哪常常到月底才后知后觉。",mid:"知道要看现金流，但执行有时松。",high:"很高，你对收入、支出和节奏有更清楚的盘面感。"},
+    {low:"资源整合感偏弱，很多时候还是习惯单打独斗。",mid:"会想到借力，但不一定每次都用得顺。",high:"很高，你已经开始明白人、信息、渠道都可以是杠杆。"},
+    {low:"对学习和投资自己的意愿没那么强，更容易把钱花在眼前可见的地方。",mid:"会投自己，但要看值不值。",high:"很高，你愿意为认知升级、技能提升和长期成长花钱。"},
+    {low:"趋势判断偏弱，容易被眼前热闹带偏。",mid:"看得到一点大方向，但短期波动仍会影响你。",high:"很高，你更容易看长期，不会只被表面的热度牵着走。"},
+    {low:"执行稳定度一般，计划容易受心情和偷懒影响。",mid:"状态好时很能打，状态差时会断。",high:"很高，你能把事情推进下去，不只是想想而已。"},
+    {low:"复利理解偏弱，更想看到立刻结果。",mid:"知道一点复利逻辑，但耐心还在修炼。",high:"很高，你能接受慢慢累积，也能理解慢就是快。"},
+    {low:"抗诱惑能力一般，容易被别人的节奏和表面的爽感拐跑。",mid:"能稳住一部分，但不是每次都能顶住。",high:"很高，外部诱惑来了，你也比较能把自己拉住。"},
+    {low:"目标进取心没那么强，很多时候更想先舒服。",mid:"有目标，但热度和狠劲不总是在线。",high:"很高，你对往上走这件事是真有驱动力的。"},
+    {low:"财富自信偏弱，容易怀疑自己到底能不能起来。",mid:"有时相信自己，有时会被现实压回去。",high:"很高，你已经开始相信自己能做出一点真正的积累。"}
+  ],
+  social: [
+    {low:"社交紧张度低，人多时你也不太会立刻僵住。",mid:"会有点紧，但熟悉后能慢慢松开。",high:"很高，一到人多或被关注的场景，身体就会先紧一下。"},
+    {low:"面对陌生人不算拘谨，接话能力还在线。",mid:"刚开始会收着，后面会慢慢适应。",high:"很高，陌生场景对你来说像突然被切到高压模式。"},
+    {low:"线下回避不重，必要时你还是能出门能见人。",mid:"会挑场合，不是不能去，是要先做心理建设。",high:"很高，能线上就不线下、能不去就不去，这根线很明显。"},
+    {low:"目光压力不强，被看见也不至于马上失常。",mid:"偶尔会在意别人视线，但还撑得住。",high:"很高，只要感觉被盯着、被注意，你就容易瞬间不自然。"},
+    {low:"表达卡顿不重，大多数时候你还能把话说出来。",mid:"有时会卡，尤其是需要临场输出时。",high:"很高，越想表现正常，越容易大脑突然空白。"},
+    {low:"熟人反差不大，你线上线下、熟人陌生人区别没那么夸张。",mid:"熟了会放开，不熟时会收着。",high:"很高，熟人面前你和陌生人面前简直像两套系统。"},
+    {low:"电话焦虑不明显，接打电话对你不算大事。",mid:"陌生电话会紧一下，但能应付。",high:"很高，电话像一种高压突袭，经常要先做心理建设。"},
+    {low:"群聊潜水倾向低，你并不是完全不发言。",mid:"看群和看氛围，有时能说有时就想装死。",high:"很高，群聊里你更像长期静音观察员。"},
+    {low:"客套疲惫感较低，基本社交程序不会太快把你耗空。",mid:"能应付，但心里知道自己在耗电。",high:"很高，无效寒暄和场面互动会快速消耗你。"},
+    {low:"独处回血需求不高，热闹后不一定非得躲开。",mid:"会想安静一下，但不至于完全断联。",high:"很高，热闹待久了你必须靠独处回电。"},
+    {low:"慢热度不重，熟起来不需要太久。",mid:"需要一点过渡时间，但不算特别难打开。",high:"很高，你不是高冷，是启动时间真的比较长。"},
+    {low:"怕麻烦程度低，求人或被求都不至于让你特别别扭。",mid:"能不麻烦最好，必要时也不是完全不行。",high:"很高，你会本能想把一切都自己消化，省得开口。"},
+    {low:"尴尬敏感度低，很多小场面你都能直接过去。",mid:"会在意一点，但不至于一直记挂。",high:"很高，尴尬对你来说不是一瞬间，是会在脑里反复播放的。"},
+    {low:"主动破冰能力不错，不需要每次都等别人来救场。",mid:"看电量和心情，有时能主动、有时只想躲。",high:"很高，主动开口对你来说要消耗不少启动能量。"},
+    {low:"现场控场能力弱说明你不抢场，但也不代表不会社交。",mid:"偶尔能接一下场子，但不是常态。",high:"较高，你在熟悉或状态好的时候，其实挺能带动现场。"}
+  ]
+};
+
+function getDimDesc(type, dimIndex, score){
+  const level = score < 35 ? "low" : score < 70 ? "mid" : "high";
+  const set = dimDescMap[type] && dimDescMap[type][dimIndex];
+  if(!set) return `${getLevelTag(score)}，这条线已经有比较清楚的表现了。`;
+  return set[level];
+}
+
+function calcDistance(a, b){
+  let total = 0;
+  for(let i = 0; i < a.length; i++){
+    total += Math.pow(a[i] - b[i], 2);
+  }
+  return Math.sqrt(total);
+}
+
+function enterTest(t){
+  currType = t;
+  home.classList.add("hidden");
+  intro.classList.remove("hidden");
+  quiz.classList.add("hidden");
+  resPage.classList.add("hidden");
+  introTit.innerText = typeTitleMap[t] || "人格测试";
+}
+
+function startTest(){
+  idx = 0;
+  ansRec = {};
+  prevEggShownCount = 0;
+  reviewMode = false;
+  qBank = buildShuffledTest(currType);
+  intro.classList.add("hidden");
+  quiz.classList.remove("hidden");
+  resPage.classList.add("hidden");
+  renderQ();
+}
+
+function renderQ(){
+  clearTimeout(autoJumpTimer);
+  const item = qBank[idx];
+  if(!item) return;
+
+  statusText.innerText = `第 ${idx + 1} / ${qBank.length} 题`;
+  doneCount.innerText = `已答 ${Object.keys(ansRec).length} 题`;
+
+  const vibeText = getQuestionVibe(currType, idx);
+  qVibe.innerText = vibeText;
+  qVibe.style.display = vibeText ? "inline-block" : "none";
+
+  const mainQuestion = `${idx + 1}/${qBank.length} ${decorateQuestion(currType, item.q, idx)}`;
+  const inlineAside = getQuestionInlineAside(currType, item, idx);
+  qText.innerHTML = inlineAside
+    ? `${mainQuestion}<span class="q-inline-aside"> ${inlineAside}</span>`
+    : mainQuestion;
+
+  proBar.style.width = `${((idx + 1) / qBank.length) * 100}%`;
+
+  let html = "";
+  item.optShuffled.forEach((optObj, i) => {
+    const cls = ansRec[item.uid] === optObj.value ? "opt-btn active" : "opt-btn";
+    html += `
+      <button class="${cls}" onclick="clickOpt(${i})">
+        <span class="opt-tag">${getOptionTag(optObj.value)}</span>
+        <span>${maybeFunnyOptionText(optObj.value, optObj.text)}</span>
+      </button>
+    `;
+  });
+  optWrap.innerHTML = html;
+
+  nextBtn.innerText = idx === qBank.length - 1 ? "提交结果" : "下一题";
+  prevBtn.disabled = idx === 0;
+
+  const answered = ansRec[item.uid] !== undefined;
+  document.getElementById("tipText").innerText = answered
+    ? "当前题已作答，支持返回修改"
+    : "当前题未作答，可先跳过，提交前补完";
+
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function maybeShowPrevEgg(){
+  if(prevEggShownCount >= 2) return;
+  const chance = Math.random();
+  if(chance > 0.38) return;
+
+  const eggs = [
+    "😏 咋啦，回来改答案？刚刚嘴挺硬，现在开始复盘了是吧。",
+    "🤣 哟，杀回上一题了？看来你和刚才的自己没谈拢啊。",
+    "👀 返回上一题中……你这是在给命运做二次编辑？",
+    "🤏 小手一滑回来了，还是说你突然顿悟了？"
+  ];
+  prevEggShownCount++;
+  showToast(eggs[Math.floor(Math.random() * eggs.length)]);
+}
+
+function prevQ(){
+  if(idx > 0){
+    idx--;
+    maybeShowPrevEgg();
+    renderQ();
+  }
+}
+
+function clickOpt(displayIndex){
+  const item = qBank[idx];
+  const realValue = item.optShuffled[displayIndex].value;
+  ansRec[item.uid] = realValue;
+
+  renderQ();
+
+  const last = idx === qBank.length - 1;
+  if(reviewMode){
+    autoJumpTimer = setTimeout(() => {
+      const nextMissIndex = findNextUnansweredIndex(idx + 1);
+      if(nextMissIndex !== -1){
+        idx = nextMissIndex;
+      }else{
+        reviewMode = false;
+        idx = qBank.length - 1;
+        showToast("✅ 漏掉的题都补完了，现在可以直接提交结果。");
+      }
+      renderQ();
+    }, 180);
+    return;
+  }
+
+  if(!last){
+    autoJumpTimer = setTimeout(() => {
+      idx++;
+      renderQ();
+    }, 180);
+  }
+}
+
+function getMissList(){
+  const miss = [];
+  for(let i = 0; i < qBank.length; i++){
+    if(ansRec[qBank[i].uid] === undefined) miss.push(i + 1);
+  }
+  return miss;
+}
+
+function findNextUnansweredIndex(startIndex = 0){
+  for(let i = startIndex; i < qBank.length; i++){
+    if(ansRec[qBank[i].uid] === undefined) return i;
+  }
+  for(let i = 0; i < startIndex; i++){
+    if(ansRec[qBank[i].uid] === undefined) return i;
+  }
+  return -1;
+}
+
+function checkAndGo(){
+  const isLast = idx === qBank.length - 1;
+
+  if(!isLast){
+    idx++;
+    renderQ();
+    return;
+  }
+
+  const miss = getMissList();
+  if(miss.length > 0){
+    const firstMissIndex = miss[0] - 1;
+    reviewMode = true;
+    const pool = [
+      `😜 还差第 ${miss[0]} 题没选，先补上再看结果！`,
+      `🙅 你还有 ${miss.length} 道题没答完，别想偷偷拿结果嗷！`,
+      `🤫 第 ${miss.join("、")} 题还空着，我先带你去补完。`
+    ];
+    showToast(pool[Math.floor(Math.random() * pool.length)]);
+    idx = firstMissIndex;
+    renderQ();
+    return;
+  }
+
+  showResult();
+}
+
+function calcUserDimensions(type){
+  const dimCount = 15;
+  const sums = Array(dimCount).fill(0);
+  const counts = Array(dimCount).fill(0);
+
+  for(let i = 0; i < qBank.length; i++){
+    const item = qBank[i];
+    const ans = ansRec[item.uid];
+    if(ans === undefined) continue;
+
+    const dimIndex = item.dim;
+    const score = optionScoreMap[ans];
+    sums[dimIndex] += score;
+    counts[dimIndex] += 1;
+  }
+
+  return sums.map((sum, idx) => counts[idx] === 0 ? 50 : Math.round(sum / counts[idx]));
+}
+
+function findBestResult(type, userDims){
+  const vectors = archetypeVectors[type];
+  const polarity = polarityMap[type] || [];
+  const userLevels = userDims.map(scoreToLevel);
+
+  const scored = vectors.map((vec, index) => {
+    let sq = 0;
+    let absGap = 0;
+    let levelGap = 0;
+    let polarityPenalty = 0;
+
+    for(let i = 0; i < vec.length; i++){
+      const diff = userDims[i] - vec[i];
+      sq += diff * diff;
+      absGap += Math.abs(diff);
+      levelGap += Math.abs(userLevels[i] - scoreToLevel(vec[i]));
+
+      const userHigh = userDims[i] >= 60;
+      const vecHigh = vec[i] >= 60;
+      if(polarity[i] === 1){
+        if(userHigh !== vecHigh) polarityPenalty += 10;
+      }else{
+        if(userHigh !== vecHigh) polarityPenalty += 6;
+      }
+    }
+
+    const euclid = Math.sqrt(sq);
+    const score = euclid + absGap * 0.18 + levelGap * 4.2 + polarityPenalty;
+
+    return { index, dist: euclid, score, vec };
+  }).sort((a,b)=>a.score-b.score);
+
+  const chosen = scored[0];
+  return {
+    index: chosen.index,
+    meta: resultMeta[type][chosen.index],
+    dist: chosen.dist,
+    score: chosen.score,
+    vec: chosen.vec,
+    all: scored.slice(0, 3)
+  };
+}
+
+function build15Dims(type){
+  const userDims = calcUserDimensions(type);
+  const prefixMap = {
+    love:["E1","E2","E3","E4","E5","E6","E7","E8","E9","E10","E11","E12","E13","E14","E15"],
+    dark:["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13","A14","A15"],
+    rich:["R1","R2","R3","R4","R5","R6","R7","R8","R9","R10","R11","R12","R13","R14","R15"],
+    social:["S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","S11","S12","S13","S14","S15"]
+  };
+  return dimLabels[type].map((label, i) => {
+    const score = userDims[i];
+    const lv = scoreToLevel(score);
+    return {
+      code: prefixMap[type][i],
+      n: label,
+      s: `${lv}/7分`,
+      lvText: getLevelTag(score),
+      txt: getDimDesc(type, i, score),
+      raw: score
+    };
+  });
+}
+
+
+function getStrengthAndWeakness(type, dims){
+  const scored = dims.map((d, i) => {
+    const polarity = polarityMap[type][i];
+    const strengthScore = polarity === 1 ? d.raw : 100 - d.raw;
+    const weaknessScore = polarity === 1 ? 100 - d.raw : d.raw;
+    return {...d, idx:i, strengthScore, weaknessScore};
+  });
+
+  const strengths = [...scored]
+    .sort((a,b)=>b.strengthScore-a.strengthScore)
+    .slice(0,3);
+
+  const weaknessPool = [...scored]
+    .filter(item => !strengths.some(s => s.idx === item.idx))
+    .sort((a,b)=>b.weaknessScore-a.weaknessScore);
+
+  const weaknesses = weaknessPool.slice(0,3);
+  return { strengths, weaknesses };
+}
+
+const UNIVERSAL_ENDING = "仅供参考，本意其实好玩看着sbti,想弄一个自己不一样人格，希望大家喜欢，自己的人生自己决定，你不是某一个特定人格，你是不一样美丽的个体，爱自己，自己就是地球模拟器里面的主角，开开心心每一天。";
+
+function pickBySeed(pool, seed){
+  return pool[Math.abs(seed) % pool.length];
+}
+
+function getScoreMood(score, positive = true){
+  if(positive){
+    if(score >= 88) return "特别稳";
+    if(score >= 72) return "很在线";
+    if(score >= 55) return "比较拿得住";
+    return "有一点苗头";
+  }
+  if(score >= 88) return "一碰就容易失控";
+  if(score >= 72) return "最近很容易卡住";
+  if(score >= 55) return "偶尔会把自己绊一下";
+  return "暂时问题不大";
+}
+
+function getDimensionSentence(type, item, mode, order){
+  const dimName = item.n;
+  const positive = mode === "strength";
+  const mood = getScoreMood(positive ? item.strengthScore : item.weaknessScore, positive);
+  const templates = positive ? [
+    `【${dimName}】这块你${mood}，很多时候不是临场发挥，是已经快变成默认设置了。`,
+    `你在【${dimName}】上的表现会更突出，说明你处理这类事情时通常更有自己的节奏。`,
+    `放到整体状态里看，【${dimName}】算是你现在比较顶得住的一条线。`,
+    `别人可能还在犹豫的时候，你在【${dimName}】这块往往已经先有感觉、先有反应了。`
+  ] : [
+    `【${dimName}】这块你${mood}，很容易在某些场景下把情绪、判断或行动带偏。`,
+    `你最近比较容易在【${dimName}】上出小岔子，不一定明显，但会偷偷影响状态。`,
+    `一旦【${dimName}】被触发，你就容易出现上头、卡顿、内耗或者想太多的情况。`,
+    `【${dimName}】现在像你身上的一个高敏开关，碰到对应场景时反应会比别人更大。`
+  ];
+  return templates[order % templates.length];
+}
+
+function buildAbstractSummary(type, resultName, baseLong, strengths, weaknesses){
+  const s1 = strengths[0]?.n || "某些细节";
+  const s2 = strengths[1]?.n || "一些判断";
+  const w1 = weaknesses[0]?.n || "某些开关";
+  const w2 = weaknesses[1]?.n || "一些情绪点";
+
+  const summaryPool = {
+    love: [
+      `你这个【${resultName}】最明显的底色，就是在【${s1}】和【${s2}】上特别有感应，所以一旦关系进入状态，你很容易比别人先认真，也比别人先被牵动。` ,
+      `放在恋爱场里看，你很像那种表面还能装一下正常，实际【${s1}】一拉满、【${w1}】一触发，心里就已经开始连续剧连播的人。`,
+      `你的恋爱气质不算冷，你更多是会在【${s1}】上给很多、在【${w1}】上想很多，所以爱这件事对你来说很容易既甜又拧巴。`
+    ],
+    dark: [
+      `你这个【${resultName}】的核心，不是单纯变坏，而是你在【${s1}】和【${s2}】上越来越清醒，所以很多人很多事你已经不会再傻乎乎全信。`,
+      `你现在的状态挺像：表面还算正常营业，实际【${s1}】在线、【${w1}】也在线，很多局你一眼就能闻出不对劲。`,
+      `说白了，你不是突然复杂，你只是经历多了以后，在【${s1}】上长了脑子，在【${w1}】上长了保护壳。`
+    ],
+    rich: [
+      `你这个【${resultName}】的重点，不只是想不想赚钱，而是你在【${s1}】和【${s2}】上已经开始像回事了，只是【${w1}】和【${w2}】偶尔还会拖你后腿。`,
+      `你现在特别像那种一边认真研究怎么变强，一边又会被【${w1}】绊一下的人，所以整体不是没潜力，是节奏还要再稳一点。`,
+      `从搞钱视角看，你身上最值钱的不是嘴上目标，而是【${s1}】和【${s2}】已经有苗头了；真正要防的是【${w1}】突然上线把计划打散。`
+    ],
+    social: [
+      `你这个【${resultName}】最真实的地方，在于【${s1}】和【${s2}】决定了你并不是不会和人相处，只是【${w1}】和【${w2}】会让你在特定场景下突然掉电。`,
+      `你的社交状态不是简单一句内向外向能说完的，更像是有些线条很稳，比如【${s1}】；有些开关很敏感，比如【${w1}】。`,
+      `你给人的感觉可能还算正常，但你自己知道，只要【${w1}】被点到、【${w2}】开始作祟，整个社交系统就会忽然进入省电模式。`
+    ]
+  };
+
+  const seed = resultName.length + strengths.reduce((n, x) => n + x.raw, 0) + weaknesses.reduce((n, x) => n + x.raw, 0);
+  const intro = pickBySeed(summaryPool[type], seed);
+  return `${intro}<br><br>${baseLong}`;
+}
+
+function buildAdvice(type, strengths, weaknesses){
+  const s1 = strengths[0]?.n || "长处";
+  const w1 = weaknesses[0]?.n || "短板";
+  const advicePool = {
+    love: [
+      `你不用立刻把自己训练成冷脸战神，先学会在【${w1}】冒头的时候停一下，别急着拿别人的态度定义自己。`,
+      `你身上的【${s1}】是优点，但别让它被【${w1}】绑架。你可以认真爱人，也可以先稳住自己。`,
+      `下一次当【${w1}】开始发作时，别急着脑补结局，先把注意力从对方身上收回一点，你会轻松很多。`
+    ],
+    dark: [
+      `继续保留你的【${s1}】，但别让【${w1}】把你推成“全员可疑模式”，不然最先累到的人还是你。`,
+      `会防守是本事，但【${w1}】太满的时候，人会变得很耗能。你可以清醒，不用时时刻刻备战。`,
+      `你已经有【${s1}】了，真正更高级的是在【${w1}】上线时依然能保留一点余地。`
+    ],
+    rich: [
+      `你真正该做的不是一次性逆天改命，而是先把【${w1}】这一块稳住，让【${s1}】持续发力。`,
+      `你的成长点已经冒出来了，但只要【${w1}】还总来插队，很多计划都会中途跑偏。先补这里最值。`,
+      `搞钱这事拼的不是一两天热血，而是让【${s1}】变常态、让【${w1}】少捣乱。你离顺起来其实没那么远。`
+    ],
+    social: [
+      `你不用硬把自己改成社牛，先把【${w1}】这块的紧绷感放松一点，让【${s1}】自然发挥就够了。`,
+      `很多时候你不是不行，是【${w1}】一上来就先劝退了你。先学会少盯自己一点，社交会舒服很多。`,
+      `保住你的【${s1}】，别总被【${w1}】牵着走。你不是不会，你只是容易在现场先吓自己。`
+    ]
+  };
+
+  const seed = strengths[0]?.idx || 0;
+  return pickBySeed(advicePool[type], seed + (weaknesses[0]?.idx || 0));
+}
+
+function buildReportHTML(type, resultName, baseLong, dims){
+  const { strengths, weaknesses } = getStrengthAndWeakness(type, dims);
+  const summaryHTML = buildAbstractSummary(type, resultName, baseLong, strengths, weaknesses);
+  const strengthText = strengths.map(x => `【${x.n}】`).join("、");
+  const weaknessText = weaknesses.map(x => `【${x.n}】`).join("、");
+  const adviceText = buildAdvice(type, strengths, weaknesses);
+
+  return `
+    <div class="report-title">人格版总结</div>
+    <div>${summaryHTML}</div>
+
+    <div class="report-title">你的优势</div>
+    <div>这次最明显的是：${strengthText}。</div>
+
+    <div class="report-title">要注意的点</div>
+    <div>比较容易卡住的是：${weaknessText}。${adviceText}</div>
+  `;
+}
+
+function getAuthorMessage(type, resultName, dims){
+  const { strengths, weaknesses } = getStrengthAndWeakness(type, dims);
+  const s1 = strengths[0]?.n || "某些部分";
+  const s2 = strengths[1]?.n || "一些感受";
+  const w1 = weaknesses[0]?.n || "某些开关";
+
+  const map = {
+    love:[
+      `如果你测出了【${resultName}】，别急着笑自己“又上头了”。很多人不是不会爱，而是在【${s1}】和【${s2}】上太真、太快、太容易给出去，所以【${w1}】一被碰到，就会把自己也卷进去。你真正要学的不是装冷漠，而是以后认真喜欢谁的时候，也记得先别把自己弄丢。`,
+      `测到【${resultName}】不代表你恋爱有病，只代表你在感情里感受力真的很强。尤其是【${s1}】这块，一旦在线，你就容易比别人更投入；而【${w1}】一冒头，又会比别人更拧巴。深情不是问题，没有边界才会让你难受。`
+    ],
+    dark:[
+      `如果你测出了【${resultName}】，也不用急着给自己扣“坏人”帽子。很多人的清醒、防备、隐藏和不动声色，本质上都是被现实教育过后，在【${s1}】和【${s2}】这几块长出来的保护机制。你可以有锋芒，但别让【${w1}】把你困在长期备战状态里。`,
+      `测到【${resultName}】说明你不是单纯，你只是现在更懂人、更懂边界，也更懂得先护住自己。这个壳不丢人，只是希望你在【${s1}】越来越稳的时候，别被【${w1}】拖进“谁都不值得信”的极端里。`
+    ],
+    rich:[
+      `如果你测出了【${resultName}】，真不用立刻焦虑自己是不是这辈子没戏了。财富脑这东西本来就不是一夜点满的，你现在在【${s1}】和【${s2}】上已经有东西了，只是【${w1}】还会偶尔拆台。别着急，先把能稳定重复的动作做起来，很多变化会慢慢自己出现。`,
+      `测到【${resultName}】其实挺正常的。年轻人的财商成长，本来就是一边想搞钱、一边乱花、一边焦虑、一边又不服输。重点不是假装完美，而是你能不能让【${s1}】持续在线，让【${w1}】少来打断你。`
+    ],
+    social:[
+      `如果你测出了【${resultName}】，别急着说自己不会做人。你只是在人群和关系里，有自己的耗电规律和启动方式。你在【${s1}】、【${s2}】这块其实并不差，只是【${w1}】一被触发，整个人就容易收紧。你不需要强行变成别人，只需要找到自己的舒服节奏。`,
+      `测到【${resultName}】不代表你有社交缺陷，只说明你的系统不是“见人自动热机”那一挂。有的人靠热闹充电，有的人靠独处回血，这都正常。你真正要做的，是少拿【${w1}】吓自己，多给【${s1}】一点发挥空间。`
+    ]
+  };
+
+  const seed = resultName.length + (strengths[0]?.raw || 0) + (weaknesses[0]?.raw || 0);
+  return `${pickBySeed(map[type], seed)}<br><br>${UNIVERSAL_ENDING}`;
+}
+
+function showResult(){
+  reviewMode = false;
+  quiz.classList.add("hidden");
+  intro.classList.add("hidden");
+  home.classList.add("hidden");
+  resPage.classList.remove("hidden");
+
+  const userDims = calcUserDimensions(currType);
+  const matched = findBestResult(currType, userDims);
+  const data = matched.meta;
+  const dims = build15Dims(currType);
+
+  personName.innerText = "";
+  personEn.innerText = "";
+  personDesc.innerText = "";
+  resPage.dataset.resultName = data[0];
+  resPage.dataset.resultCode = data[1];
+  resPage.dataset.resultDesc = data[2];
+  resPage.dataset.resultIndex = String(matched.index + 1);
+  resPage.dataset.resultType = currType;
+  longDetail.innerHTML = buildReportHTML(currType, data[0], data[3], dims);
+  resultQuote.innerText = data[2];
+  const maxEuclid = Math.sqrt(15 * Math.pow(92, 2));
+  const closeness = 1 - (matched.dist / maxEuclid);
+  const hitCount = dims.filter((d, i) => Math.abs(d.raw - matched.vec[i]) <= 16).length;
+  const matchPercent = Math.max(58, Math.min(99, Math.round(closeness * 100)));
+  primaryTypeName.innerText = `${data[1]}（${data[0]}）`;
+  primaryTypeBadge.innerText = `匹配度 ${matchPercent}% · 精准命中 ${hitCount}/15 维`;
+  primaryTypeNote.innerText = hitCount >= 10 ? "维度命中度较高，当前结果可视为你这次测试下的主人格画像。" : "这次结果更像你当前状态下最接近的一张人格切片。";
+  resultTag.innerText = `结果档位 ${matched.index + 1} / 20`;
+  const imgSrc = imageMap[currType] && imageMap[currType][matched.index]
+    ? imageMap[currType][matched.index]
+    : "img/default.png";
+  personImg.style.backgroundImage = `url(${imgSrc})`;
+  personImg.innerText = "";
+
+  let dimStr = `<div class="dim-wrap">`;
+  dims.forEach(d => {
+    dimStr += `
+      <div class="dim-card">
+        <div class="dim-top">
+          <div class="dim-left">${d.code} ${d.n}</div>
+          <div class="dim-right">${d.lvText} <small>/ ${d.s}</small></div>
+        </div>
+        <div class="dim-desc2">${d.txt}</div><div class="dim-bottom-right"><span class="dim-strength">强度值：${d.raw}</span></div>
+      </div>
+    `;
+  });
+  dimStr += `</div>`;
+  dimHtml.innerHTML = dimStr;
+  authorWord.innerHTML = getAuthorMessage(currType, data[0], dims);
+
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function resetToHome(){
+  clearTimeout(autoJumpTimer);
+  currType = "";
+  idx = 0;
+  ansRec = {};
+  qBank = [];
+  prevEggShownCount = 0;
+
+  intro.classList.add("hidden");
+  quiz.classList.add("hidden");
+  resPage.classList.add("hidden");
+  home.classList.remove("hidden");
+
+  qText.innerText = "";
+  optWrap.innerHTML = "";
+  proBar.style.width = "0%";
+  statusText.innerText = "第 1 / 30 题";
+  doneCount.innerText = "已答 0 题";
+  personName.innerText = "";
+  personEn.innerText = "";
+  personDesc.innerText = "";
+  longDetail.innerHTML = "";
+  dimHtml.innerHTML = "";
+  resultTag.innerText = "结果编号";
+  personImg.style.backgroundImage = "";
+  personImg.innerText = "人格图";
+  authorWord.innerText = "";
+  delete resPage.dataset.resultName;
+  delete resPage.dataset.resultCode;
+  delete resPage.dataset.resultDesc;
+  delete resPage.dataset.resultIndex;
+  delete resPage.dataset.resultType;
+
+  document.querySelectorAll("details.fold-card").forEach(d => d.removeAttribute("open"));
+
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+async function shareResult(){
+  const resultName = resPage.dataset.resultName || "我的人格结果";
+  const resultCode = resPage.dataset.resultCode || "RESULT";
+  const resultIndex = resPage.dataset.resultIndex || "1";
+  const resultType = resPage.dataset.resultType || "";
+  const shareUrl = buildShareUrl(resultName, resultCode, resultIndex, resultType);
+  const shareText = `我测出了【${resultName}】 ${resultCode}，你也来测测看：${shareUrl}`;
+
+  try{
+    if(navigator.share){
+      await navigator.share({
+        title: `我的测试结果：${resultName}`,
+        text: `我测出了【${resultName}】 ${resultCode}`,
+        url: shareUrl
+      });
+      return;
+    }
+  }catch(e){
+  }
+
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(shareText);
+      showToast("已复制结果链接，去朋友圈粘贴就能发。");
+      window.open(shareUrl, "_blank");
+      return;
+    }
+  }catch(e){
+  }
+
+  fallbackCopy(shareText, shareUrl);
+}
+
+function buildShareUrl(resultName, resultCode, resultIndex, resultType){
+  const url = new URL("https://nmti.com.cn/");
+  url.searchParams.set("result_name", resultName);
+  url.searchParams.set("result_code", resultCode);
+  url.searchParams.set("result_index", resultIndex);
+  if(resultType) url.searchParams.set("type", resultType);
+  return url.toString();
+}
+
+function fallbackCopy(text, shareUrl){
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.left = "-9999px";
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try{
+    document.execCommand("copy");
+    showToast("已复制结果链接，去朋友圈粘贴就能发。");
+    if(shareUrl) window.open(shareUrl, "_blank");
+  }catch(err){
+    X
+  }
+  document.body.removeChild(ta);
+}
+
+let toastTimer = null;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toast.innerText = msg;
+  toast.classList.add("show");
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2200);
+}
+
+function bindHomeCards(){
+  const map = {
+    "card-love":"love",
+    "card-dark":"dark",
+    "card-rich":"rich",
+    "card-social":"social"
+  };
+  Object.entries(map).forEach(([id,type])=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    el.onclick=(e)=>{ e.preventDefault(); e.stopPropagation(); enterTest(type); };
+    el.addEventListener('touchend',(e)=>{ e.preventDefault(); e.stopPropagation(); enterTest(type); }, {passive:false});
+  });
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  bindHomeCards();
+});
+
+window.addEventListener('load', ()=>{
+  bindHomeCards();
+});
+
+</script>
+</body>
+</html>
